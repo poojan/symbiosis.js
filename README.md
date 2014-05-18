@@ -122,12 +122,16 @@ ORM.CacheProvider.Define('localStorage', function () {
 
 ORM.Property.Define('String', function () {
 	return {
-		serializationHandler: function (value) {
+		//function is called with the fields value and the configuration
+		//and should return whatever should be the serialized value, 
+		//OR void/undefined if it should be omitted on serialization
+		serializationHandler: function (value, configuration) {
 			//Should return the value that should be passed on
 			//when serialized before sending data of to a resource
+			if(configuration.persistable === false) return;
 			return String(value || '');
 		},
-		deserializationHandler: function (value) {
+		deserializationHandler: function (value, configuration) {
 			//return the value that should be a valid instance of the field, 
 			//for example a instanciated user if it is an association, 
 			//or a text parsed into a number if it is a number field.
@@ -135,6 +139,9 @@ ORM.Property.Define('String', function () {
 		},
 		validationHandler: function (value, validators) {
 			//return true or false depending on that all the validators for this field says the field is valid
+			return _.every(validators, function(validator) {
+				return validator.validate(value);
+			});
 		},
 		defaultValue: function() {
 			//Should return the default value that a new instance of this field will be populated with
