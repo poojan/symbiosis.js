@@ -19,6 +19,10 @@ var PersonModel = ORM.Model.Define('User', {
 			firstname: 'String',
 			surname: 'String',
 			age: 'Number',
+			createdDate: {
+				type: 'Date',
+				persistable: false //will not be included when model is serialized
+			},
 			friends: {
 				hasMany: 'User'
 			}
