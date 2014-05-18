@@ -21,6 +21,7 @@
   "homepage": "https://github.com/kennethlynne/yet-another-orm",
   "devDependencies": {
     "gulp": "^3.6.2",
-    "karma": "^0.12.16"
+    "karma": "^0.12.16",
+    "karma-jasmine": "^0.1.5"
   }
 }
