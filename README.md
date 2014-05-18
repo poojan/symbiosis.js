@@ -54,13 +54,8 @@ person.save(); //will do a post to the back-end,
 Advanced example:
 ```javascript
 
+//Adapters are suppoased to handle all interaction with a driver and cache
 ORM.Adapter.Define('http', function() {
-	return {
-	}
-});
-
-ORM.Driver.Define('http', function() {
-
 	return {
 		get: function(model, configuration, cacheProvider, driver, done) { 
 		/*. Check if model exists in cache first, if so, return cached person
@@ -83,19 +78,65 @@ ORM.Driver.Define('http', function() {
 	}
 });
 
+//Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
+//Drivers are injected into an adapter
+ORM.Driver.Define('http', function() {
+
+});
+
+//Cache providers has the responsibility for caching and maintaining serialized data
 ORM.CacheProvider.Define('memory', function () {
+
+
 	return {
-		//create, read, update, delete
+		configuration:
+		{
+			maxAge: 900000, // Items added to this cache expire after 15 minutes.
+		}
+		create: function(configuration, key, data) {
+			//...
+		},
+		read: function(configuration, key) {
+			//...
+		}, 
+		update: function(configuration, key, data) {
+			//...
+		}, 
+		delete: function(configuration, key) {
+			//...
+		},
+		flush: function(configuration) {
+			//This method will be called every now and then 
+			//and is responsible for removing outdated data from cache
+		}
 	}
 });
 
 ORM.CacheProvider.Define('localStorage', function () {
-	return {
-		//create, read, update, delete
-	}
+	return //same interface as for memory
 });
 
 ORM.Property.Define('String', function () {
+	return {
+		serializationHandler: function (value) {
+			//Should return the value that should be passed on
+			//when serialized before sending data of to a resource
+			return String(value || '');
+		},
+		deserializationHandler: function (value) {
+			//return the value that should be a valid instance of the field, 
+			//for example a instanciated user if it is an association, 
+			//or a text parsed into a number if it is a number field.
+			return String(value || '');
+		},
+		validationHandler: function (value, validators) {
+			//return true or false depending on that all the validators for this field says the field is valid
+		},
+		defaultValue: function() {
+			//Should return the default value that a new instance of this field will be populated with
+			return '';
+		}
+	}
 });
 
 ORM.Configuration.setDefaultDriver('http');
