@@ -179,7 +179,7 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	//Instance methods
-	//Default methods: save, remove, ...
+	//Default methods: save, remove, set...
 	methods: {
 		resetPassword: function (model, adapter)
 		{
@@ -290,7 +290,14 @@ var Person = ORM.Define('Person', {
 		//by default the models validators and other stuff is put here
 	],
 	//Static methods available on the model
-	//Default methods are create, remove, get, where
+	//Default methods are create, remove, get, findOrCreate, where
+	//The ORM will keep track of models based on ID, and should return the exact
+	//same instance of a model on subsequest gets.
+	//var a = Person.get(5);
+	//var b = Person.get(5);
+	//expect(a === b);
+	//a.firstname = 'Coolio';
+	//expect(b.firstname).toBe('Coolio');
 	staticMethods: {
 		customStaticMethod: function (adapter) {
 			var Person = this;
