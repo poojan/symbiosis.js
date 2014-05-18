@@ -112,12 +112,12 @@ var Person = ORM.Define('Person', {
 	beforeSave: function () {
 
 	},
-  afterSave: function () {
-
-  },
-  beforeRemove: function () {
-
-  },
+	  afterSave: function () {
+	
+	  },
+	  beforeRemove: function () {
+	
+	  },
 	onInitialized: function (model) {
 		model.$.isReady = true;
 	},
