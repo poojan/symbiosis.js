@@ -11,7 +11,11 @@ Usage example:
 ```javascript
 var Person = ORM.Define('Person', {
 	fields: {
-		name: 'String',
+		//Behind the scenes these fields are mapped into property instances (read more further down)
+		name: {
+			type: 'String'
+		},
+		//Shorthand for type specification
 		surname: 'String',
 		age: 'Number',
 		friends: {
@@ -35,8 +39,11 @@ var Person = ORM.Define('Person', {
 		configuration: {
 			url: 'users'
 		},
-		get: function(model, configuration, done) { /*...*/},
-		find: function(model, configuration, done) { /*...*/ },
+		get: function(model, configuration, cacheProvider, driver, done) { 
+		/*. Check if model exists in cache first, if so, return cached person
+		..*/
+		},
+		find: function(model, configuration, cacheProvider, driver, done) { /*...*/ },
 		save: function(model, configuration, cacheProvider, driver, done) {
 			driver[model.id?'post':'put'](configuration.url, model.toJSON())
 				.then(function(person){
@@ -44,9 +51,22 @@ var Person = ORM.Define('Person', {
 					done(null, person); //ORM will map the response to an instance of the model.
 				});
 		},
-		remove: function (model) {
+		remove: function (model, configuration, cacheProvider, driver, done) {
 
+		},
+		resetPassword: function(model, configuration, cacheProvider, driver, done)
+		{
+		},
+		customMethod: function(model, configuration, cacheProvider, driver, done) {
 		}
+	},
+	driver: {
+		get: function() {
+		
+		}
+	},
+	cacheProvider: {
+		//Basic CRUD methods, default cacheProvider stores data in memory
 	},
 	validation: {
 		//Overrides default property validators
@@ -56,6 +76,7 @@ var Person = ORM.Define('Person', {
 				.maxLenght(20)
 	},
 	serializationHandlers: {
+		//Only properties with a serialization handler will be included in the serialized data
 		//Overrides default handlers
 		name: function(value) {
 			return value.toLowercase();
@@ -68,6 +89,7 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	deserializationHandlers: {
+		//If model is instantiated with data, these handlers handles hydrating the fields
 		name: function (value) {
 			return String(value);
 		},
