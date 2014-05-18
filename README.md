@@ -1,4 +1,4 @@
-symbiosis
+ng-orm
 ======
 
 An framework agnostic and easily extendible object relational mapping framework for the client-side.
