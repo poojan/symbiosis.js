@@ -75,6 +75,7 @@ ORM.Adapter.Define('http', function() {
 				});
 		},
 		save: function(model, configuration, cacheProvider, driver, done) {
+		//TODO: Do a patch request with only values that have changed since last sync()
 			driver[model.id?'post':'put'](configuration.url, model.toJSON())
 				.then(function(person){
 					cacheProvider.update(model, person);
@@ -140,6 +141,14 @@ ORM.Property.Define('String', function () {
 			if(configuration.persistable === false) return;
 			return String(value || '');
 		},
+		conflictHandler: function (localValue, resourceValue, model, resource) {
+			//This method is called on model.sync() whenever there is a conflict
+			//between a resource and local values
+			//Should return the merged value
+			//The default handler returns the resourceValue
+			//Can for example do a time comparison for a last write wins.
+			return resourceValue;
+		},
 		deserializationHandler: function (value, configuration) {
 			//return the value that should be a valid instance of the field, 
 			//for example a instanciated user if it is an association, 
@@ -179,7 +188,10 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	//Instance methods
-	//Default methods: save, remove, set...
+	//Default methods: save, remove, set, sync, ...
+	//Sync will load the latest data from the resource and if there is a conflict it will run a provided
+	//conflict handler.
+	//Then it will save all dirty properties and omit non-dirty ones using the provided adapter
 	methods: {
 		resetPassword: function (model, adapter)
 		{
