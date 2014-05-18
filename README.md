@@ -174,16 +174,20 @@ A model consists of one or many properties. A property handles the mapping / hyd
 ```javascript
 function Property() {
 	return {
-		serializationHandler: function () {
-
+		serializationHandler: function (value) {
+			//Should return the value that should be passed on
+			//when serialized before sending data of to a resource
 		},
-		deserializationHandler: function () {
-
+		deserializationHandler: function (value) {
+			//return the value that should be a valid instance of the field, 
+			//for example a instanciated user if it is an association, 
+			//or a text parsed into a number if it is a number field.
 		},
-		validationHandler: function () {
-
+		validationHandler: function (value, validators) {
+			//return true or false depending on that all the validators for this field says the field is valid
 		},
 		defaultValue: function() {
+			//Should return the default value that a new instance of this field will be populated with
 			return new Date();
 		}
 	}
