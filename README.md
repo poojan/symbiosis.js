@@ -27,6 +27,8 @@ var PersonModel = ORM.Model.Define('User', {
 				hasMany: 'User'
 			}
 		},
+		//Model will use its default http adapter, configuring it to interface with some
+		//restfull API endpoint
 		adapter: {
 			configuration: {
 				baseUrl: 'http://example.com/api/users'
@@ -52,7 +54,6 @@ person.save(); //will do a post to the back-end,
 //and whatever the back-end returns (a person with and id and createdDate etc) will set this instances 
 //fields to the updatet values.
 //save() returns a promise, but we do not need it in this example.
-
 ```
 
 Advanced example:
@@ -61,9 +62,17 @@ Advanced example:
 //Adapters are suppoased to handle all interaction with a driver and cache
 ORM.Adapter.Define('http', function() {
 	return {
-		get: function(model, configuration, cacheProvider, driver, done) { 
-		/*. Check if model exists in cache first, if so, return cached person
-		..*/
+		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
+		//TODO: Check if model exists in cache first, if so, return cached person
+		//TODO: If queryParameters is an object we should build a query string based on query parameters
+			var id = queryParameters;
+			driver.get(id, configuration.url)
+				.then(function(person){
+					done(null, person); //ORM will map the response to an instance of the model.
+				})
+				.catch(function(err){
+					done(err);
+				});
 		},
 		save: function(model, configuration, cacheProvider, driver, done) {
 			driver[model.id?'post':'put'](configuration.url, model.toJSON())
