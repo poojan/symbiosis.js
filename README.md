@@ -8,7 +8,100 @@ Preliminary readme(!).
 
 Usage example:
 =====
+The bare minimum:
 ```javascript
+
+
+var PersonModel = ORM.Model.Define('User', {
+		fields: {
+			//Id will by convention become the models primary key
+			id: 'String',
+			firstname: 'String',
+			surname: 'String',
+			age: 'Number',
+			friends: {
+				hasMany: 'User'
+			}
+		},
+		adapter: {
+			configuration: {
+				baseUrl: 'http://example.com/api/users'
+			}
+		}
+	});
+
+var person = PersonModel.create({
+	firstname: 'Kenneth',
+	surname: 'Lynne',
+	age: 25,
+	friends: [
+		'5',
+		'8',
+		'10'
+	]
+});
+
+//person.firstname: Kenneth
+//person.friends[0] is whatever PersonModel.getById('5') returns, namely a instantiated person
+
+person.save(); //will do a post to the back-end, 
+//and whatever the back-end returns (a person with and id and createdDate etc) will set this instances 
+//fields to the updatet values.
+//save() returns a promise, but we do not need it in this example.
+
+```
+
+Advanced example:
+```javascript
+
+ORM.Adapter.Define('http', function() {
+	return {
+	}
+});
+
+ORM.Driver.Define('http', function() {
+
+	return {
+		get: function(model, configuration, cacheProvider, driver, done) { 
+		/*. Check if model exists in cache first, if so, return cached person
+		..*/
+		},
+		save: function(model, configuration, cacheProvider, driver, done) {
+			driver[model.id?'post':'put'](configuration.url, model.toJSON())
+				.then(function(person){
+					cacheProvider.update(model, person);
+					done(null, person); //ORM will map the response to an instance of the model.
+				});
+		},
+		remove: function (model, configuration, cacheProvider, driver, done) {
+			driver.remove(configuration.url, )
+				.then(function(person){
+					cacheProvider.update(model, person);
+					done(null, person); //ORM will map the response to an instance of the model.
+				});
+		}
+	}
+});
+
+ORM.CacheProvider.Define('memory', function () {
+	return {
+		//create, read, update, delete
+	}
+});
+
+ORM.CacheProvider.Define('localStorage', function () {
+	return {
+		//create, read, update, delete
+	}
+});
+
+ORM.Property.Define('String', function () {
+});
+
+ORM.Configuration.setDefaultDriver('http');
+ORM.Configuration.setDefaultAdapter('http');
+ORM.Configuration.setDefaultCacheProvider('localStorage');
+
 var Person = ORM.Define('Person', {
 	fields: {
 		//Behind the scenes these fields are mapped into property instances (read more further down)
@@ -52,7 +145,7 @@ var Person = ORM.Define('Person', {
 				});
 		},
 		remove: function (model, configuration, cacheProvider, driver, done) {
-
+	
 		},
 		resetPassword: function(model, configuration, cacheProvider, driver, done)
 		{
@@ -102,15 +195,15 @@ var Person = ORM.Define('Person', {
 	},
 	onInitializing: function (model) {
 		model.$.isReady = false;
-
+	
 		var unbinder = $rootScope.$watch(function() {
 			model.$.digest();
 		}, angular.noop);
-
+	
 		return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
 	},
 	beforeSave: function () {
-
+	
 	},
 	  afterSave: function () {
 	
