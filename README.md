@@ -395,6 +395,16 @@ An adapter handles all interaction with a driver. It is an abstraction from the 
 
 # Driver
 A driver handles all interaction with a resource (local storage, REST API etc.)
+
+
+Building and testing
+====================
+```
+npm install -g gulp
+npm install
+gulp build
+gulp test
+```
 ========
 
 The MIT License (MIT)
