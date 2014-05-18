@@ -200,6 +200,7 @@ var Person = ORM.Define('Person', {
 	},
 	computedValues: {
 		//Computed values are updated on every digest (person.digest())
+		//By default the property $validation will be populated with the results from the different validators
 		fullName: function(model) {
 			return model.name + ' ' + model.surname;
 		}
