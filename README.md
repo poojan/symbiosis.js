@@ -178,6 +178,8 @@ var Person = ORM.Define('Person', {
 			eagerload: true //Load on initialization
 		}
 	},
+	//Instance methods
+	//Default methods: save, remove, ...
 	methods: {
 		resetPassword: function (model, adapter)
 		{
@@ -185,6 +187,7 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	computedValues: {
+		//Computed values are updated on every digest (person.digest())
 		fullName: function(model) {
 			return model.name + ' ' + model.surname;
 		}
@@ -263,15 +266,19 @@ var Person = ORM.Define('Person', {
 	
 		return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
 	},
+	destroy: function (deregister) {
+		//Calls the function that was returned from onInitialize
+		deregister();
+	},
 	beforeSave: function () {
 	
 	},
-	  afterSave: function () {
+	afterSave: function () {
 	
-	  },
-	  beforeRemove: function () {
+	},
+	beforeRemove: function () {
 	
-	  },
+	},
 	onInitialized: function (model) {
 		model.$.isReady = true;
 	},
@@ -282,13 +289,24 @@ var Person = ORM.Define('Person', {
 		//Array of functions run on every call to model.digest().
 		//by default the models validators and other stuff is put here
 	],
-	destroy: function (deregister) {
-		//Calls the function that was returned from onInitialize
-		deregister();
+	//Static methods available on the model
+	//Default methods are create, remove, get, where
+	staticMethods: {
+		customStaticMethod: function (adapter) {
+			var Person = this;
+			return function (parameters, done) {
+				adapter.get(parameters)
+					.then(function(response) {
+						var person = new Person(response);
+						done(null, person);
+					});
+			}
+		}
 	},
 	toObject: function() {
 		return person this.$.serialize(); //Runs all serializationHandlers
 	},
+	//Set default value for empty fields
 	defaults: {
 		name: '',
 		age: 5
