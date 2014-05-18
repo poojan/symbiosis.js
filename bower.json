@@ -1,0 +1,21 @@
+{
+  "name": "yet-another-orm",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kennethlynne/yet-another-orm",
+  "authors": [
+    "Kenneth Lynne <kenneth.lynne@gmail.com>"
+  ],
+  "description": "Yet another ORM",
+  "main": "yet-another-orm.js",
+  "keywords": [
+    "orm"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

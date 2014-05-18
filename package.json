@@ -1,0 +1,26 @@
+{
+  "name": "yet-another-orm",
+  "version": "0.0.0",
+  "description": "Yet another ORM",
+  "main": "yet-another-orm.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kennethlynne/yet-another-orm.git"
+  },
+  "keywords": [
+    "orm"
+  ],
+  "author": "Kenneth Lynne <kenneth.lynne@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kennethlynne/yet-another-orm/issues"
+  },
+  "homepage": "https://github.com/kennethlynne/yet-another-orm",
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "karma": "^0.12.16"
+  }
+}
