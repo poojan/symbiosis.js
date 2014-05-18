@@ -1,4 +1,4 @@
-ng-orm
+Codename: yet another orm :)
 ======
 
 An framework agnostic and easily extendible object relational mapping framework for the client-side.
@@ -19,7 +19,7 @@ var Person = ORM.Define('Person', {
 		surname: 'String',
 		age: 'Number',
 		friends: {
-			hasMany: 'Book',
+			hasMany: 'Person',
 			lazyload: true, //Load association by manually populating fields e.g. model.$.hydrate('friends', 'books');
 			eagerload: true //Load on initialization
 		}
