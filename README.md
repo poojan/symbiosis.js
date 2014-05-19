@@ -62,115 +62,6 @@ person.save(); //will do a post to the back-end,
 Advanced example:
 ```javascript
 
-//Adapters are suppoased to handle all interaction with a driver and cache
-ORM.Adapter.Define('http', function() {
-	return {
-		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
-		//TODO: Check if model exists in cache first, if so, return cached person
-		//TODO: If queryParameters is an object we should build a query string based on query parameters
-			var id = queryParameters;
-			driver.get(id, configuration.url)
-				.then(function(person){
-					done(null, person); //ORM will map the response to an instance of the model.
-				})
-				.catch(function(err){
-					done(err);
-				});
-		},
-		save: function(model, configuration, cacheProvider, driver, done) {
-		//TODO: Do a patch request with only values that have changed since last sync()
-			driver[model.id?'post':'put'](configuration.url, model.toJSON())
-				.then(function(person){
-					cacheProvider.update(model, person);
-					done(null, person); //ORM will map the response to an instance of the model.
-				});
-		},
-		remove: function (model, configuration, cacheProvider, driver, done) {
-			driver.remove(configuration.url, )
-				.then(function(person){
-					cacheProvider.update(model, person);
-					done(null, person); //ORM will map the response to an instance of the model.
-				});
-		}
-	}
-});
-
-//Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
-//Drivers are injected into an adapter
-ORM.Driver.Define('http', function() {
-
-});
-
-//Cache providers has the responsibility for caching and maintaining serialized data
-ORM.CacheProvider.Define('memory', function () {
-
-
-	return {
-		configuration:
-		{
-			maxAge: 900000, // Items added to this cache expire after 15 minutes.
-		}
-		create: function(configuration, key, data) {
-			//...
-		},
-		read: function(configuration, key) {
-			//...
-		}, 
-		update: function(configuration, key, data) {
-			//...
-		}, 
-		delete: function(configuration, key) {
-			//...
-		},
-		flush: function(configuration) {
-			//This method will be called every now and then 
-			//and is responsible for removing outdated data from cache
-		}
-	}
-});
-
-ORM.CacheProvider.Define('localStorage', function () {
-	return //same interface as for memory
-});
-
-ORM.Property.Define('String', function () {
-	return {
-		//function is called with the fields value and the configuration
-		//and should return whatever should be the serialized value, 
-		//OR void/undefined if it should be omitted on serialization
-		serializationHandler: function (value, configuration) {
-			//Should return the value that should be passed on
-			//when serialized before sending data of to a resource
-			if(configuration.persistable === false) return;
-			return String(value || '');
-		},
-		conflictHandler: function (localValue, resourceValue, model, resource) {
-			//This method is called on model.sync() whenever there is a conflict
-			//between a resource and local values
-			//Should return the merged value
-			//The default handler returns the resourceValue
-			//Can for example do a time comparison for a last write wins.
-			return resourceValue;
-		},
-		deserializationHandler: function (value, configuration) {
-			//return the value that should be a valid instance of the field, 
-			//for example a instanciated user if it is an association, 
-			//or a text parsed into a number if it is a number field.
-			return String(value || '');
-		},
-		validationHandler: function (value, validators) {
-			//return true or false depending on that all the validators for this field says the field is valid
-			return _.every(validators, function(validator) {
-				return validator.validate(value);
-			});
-		},
-		defaultValue: function() {
-			//Should return the default value that a new instance of this field will be populated with
-			return '';
-		}
-	}
-});
-
 ORM.Configuration.setDefaultDriver('http');
 ORM.Configuration.setDefaultAdapter('http');
 ORM.Configuration.setDefaultCacheProvider('localStorage');
@@ -367,38 +258,170 @@ A model handles all domain logic for a entity and talks to an adapter to let it 
 ## Properties
 A model consists of one or many properties. A property handles the mapping / hydration of a field.
 ```javascript
-function Property() {
+ORM.Property.Define('String', function () {
 	return {
-		serializationHandler: function (value) {
+		//function is called with the fields value and the configuration
+		//and should return whatever should be the serialized value, 
+		//OR void/undefined if it should be omitted on serialization
+		serializationHandler: function (value, configuration) {
 			//Should return the value that should be passed on
 			//when serialized before sending data of to a resource
+			if(configuration.persistable === false) return;
+			return String(value || '');
 		},
-		deserializationHandler: function (value) {
+		conflictHandler: function (localValue, resourceValue, model, resource) {
+			//This method is called on model.sync() whenever there is a conflict
+			//between a resource and local values
+			//Should return the merged value
+			//The default handler returns the resourceValue
+			//Can for example do a time comparison for a last write wins.
+			return resourceValue;
+		},
+		deserializationHandler: function (value, configuration) {
 			//return the value that should be a valid instance of the field, 
 			//for example a instanciated user if it is an association, 
 			//or a text parsed into a number if it is a number field.
+			return String(value || '');
 		},
 		validationHandler: function (value, validators) {
 			//return true or false depending on that all the validators for this field says the field is valid
+			return _.every(validators, function(validator) {
+				return validator.validate(value);
+			});
 		},
 		defaultValue: function() {
 			//Should return the default value that a new instance of this field will be populated with
-			return new Date();
+			return '';
 		}
 	}
-}
+});
 ```
 
 ## Associations
-An association between the different models is handled by special "collection" properties
+An association between the different models is handled by special "collection" properties. This property simply does the mapping of an id to a model and back.
+```javascript
+ORM.Property.Define('Collection', function () {
+	return {
+		//function is called with the fields value and the configuration
+		//and should return whatever should be the serialized value, 
+		//OR void/undefined if it should be omitted on serialization
+		serializationHandler: function (value, configuration) {
+			//Should return the value that should be passed on
+			//when serialized before sending data of to a resource
+			//TODO: Return either an id or an array of ids based on if the attribute is asMany or hasOne 
+		},
+		conflictHandler: function (localValue, resourceValue, model, resource) {
+			//This method is called on model.sync() whenever there is a conflict
+			//between a resource and local values
+			//Should return the merged value
+			//The default handler returns the resourceValue
+			//Can for example do a time comparison for a last write wins.
+			return resourceValue;
+		},
+		deserializationHandler: function (value, configuration) {
+			//return the value that should be a valid instance of the field, 
+			//for example a instanciated user if it is an association, 
+			//or a text parsed into a number if it is a number field.
+			return String(value.id);
+		},
+		validationHandler: function (value, validators) {
+			//return true or false depending on that all the validators for this field says the field is valid
+			//TODO: Validate required?
+			//TODO: Ask the model instance itself to validate its properties recursiely.
+			//TODO: Avoid infinite recursion
+		},
+		defaultValue: function() {
+			//Should return the default value that a new instance of this field will be populated with
+			return '';
+		}
+	}
+});
+```
 
 ## Validation
+TODO
 
 # Adapter
 An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It handles caching.
 
+```javascript
+//Adapters are suppoased to handle all interaction with a driver and cache
+ORM.Adapter.Define('http', function() {
+	return {
+		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
+		//TODO: Check if model exists in cache first, if so, return cached person
+		//TODO: If queryParameters is an object we should build a query string based on query parameters
+			var id = queryParameters;
+			driver.get(id, configuration.url)
+				.then(function(person){
+					done(null, person); //ORM will map the response to an instance of the model.
+				})
+				.catch(function(err){
+					done(err);
+				});
+		},
+		save: function(model, configuration, cacheProvider, driver, done) {
+		//TODO: Do a patch request with only values that have changed since last sync()
+			driver[model.id?'post':'put'](configuration.url, model.toJSON())
+				.then(function(person){
+					cacheProvider.update(model, person);
+					done(null, person); //ORM will map the response to an instance of the model.
+				});
+		},
+		remove: function (model, configuration, cacheProvider, driver, done) {
+			driver.remove(configuration.url, )
+				.then(function(person){
+					cacheProvider.update(model, person);
+					done(null, person); //ORM will map the response to an instance of the model.
+				});
+		}
+	}
+});
+```
+## CacheProvider
+A cache provider handles cache.
+
+```javascript
+//Cache providers has the responsibility for caching and maintaining serialized data
+ORM.CacheProvider.Define('memory', function () {
+	return {
+		configuration:
+		{
+			maxAge: 900000, // Items added to this cache expire after 15 minutes.
+		}
+		create: function(configuration, key, data) {
+			//...
+		},
+		read: function(configuration, key) {
+			//...
+		}, 
+		update: function(configuration, key, data) {
+			//...
+		}, 
+		delete: function(configuration, key) {
+			//...
+		},
+		flush: function(configuration) {
+			//This method will be called every now and then 
+			//and is responsible for removing outdated data from cache
+		}
+	}
+});
+
+ORM.CacheProvider.Define('localStorage', function () {
+	return //same interface as for memory
+});
+```
 # Driver
 A driver handles all interaction with a resource (local storage, REST API etc.)
+
+```javascript
+//Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
+//Drivers are injected into an adapter
+ORM.Driver.Define('http', function() {
+	//TODO
+});
+```
 
 
 Building and testing
