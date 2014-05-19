@@ -2,7 +2,7 @@ Codename: yet another orm :)
 ======
 
 An framework agnostic and easily extendible object relational mapping framework for the client-side.
-It handles validation, association (one-to-many, many-to-many) and more. See the examples.
+It handles validation, association (one-to-many, many-to-many) and more.
 
 Unit-tests run in karma.
 Build done with gulp.
