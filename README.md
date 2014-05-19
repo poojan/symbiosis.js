@@ -134,10 +134,11 @@ var Person = ORM.Define('Person', {
 	},
 	validation: {
 		//Overrides default property validators
-		name: ORM.Validation('String')
-				.required()
-				.minLength(10)
-				.maxLenght(20)
+		name: ORM.Validation('String', {
+				required: true,
+				minLength: 10,
+				maxLenght: 20
+			})
 	},
 	serializationHandlers: {
 		//Only properties with a serialization handler will be included in the serialized data
@@ -324,7 +325,7 @@ ORM.Property.Define('Collection', function () {
 			//or a text parsed into a number if it is a number field.
 			return String(value.id);
 		},
-		validationHandler: function (value, validators) {
+		validationHandler: function (value, model, validators) {
 			//return true or false depending on that all the validators for this field says the field is valid
 			//TODO: Validate required?
 			//TODO: Ask the model instance itself to validate its properties recursiely.
@@ -339,7 +340,17 @@ ORM.Property.Define('Collection', function () {
 ```
 
 ## Validation
-TODO
+```javascript
+var validator = ORM.Validation('String', {
+	required: true,
+	minLength: 4,
+	maxLenght: 20
+});
+
+validator.isValid(1) //returns false
+validator.validate('')//returns {isValid: false, errors: ['Field is required', 'Must have lenght greater than or equal to 4']}
+validator.validate('abcd')// returns {isValid: true}
+```
 
 # Adapter
 An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It handles caching.
