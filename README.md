@@ -353,7 +353,7 @@ validator.validate('abcd')// returns {isValid: true}
 ```
 
 # Adapter
-An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It handles caching.
+An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It also handles caching.
 
 ```javascript
 //Adapters are suppoased to handle all interaction with a driver and cache
