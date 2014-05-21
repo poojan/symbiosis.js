@@ -244,35 +244,37 @@ var Person = ORM.Define('Person', {
 });
 ```
 
+# Model
+A model handles all domain logic for a entity and talks to an adapter to let it do the heavy lifting.
+
 ```javascript
 //Instance methods
 var person = Person.create({ /*..optional data..*/ });
-person.$.save();
-person.$.remove();
-person.$.getUniqueIdentifier(); //Returns models primary keys value or something that when calling Person.get(ID) will return the exact same instance
-person.$.fullName; //Using ES5 getter to return a computed value
-person.$.validate(); //Returns an array of all fields, their isValid, and an optional message
-person.$.$raw; //The raw backing models for the model
+person.save();
+person.remove();
+person.getUniqueIdentifier(); //Returns models primary keys value or something that when calling Person.get(ID) will return the exact same instance
+person.fullName; //A computed value
+person.validate(); //Returns an array of all fields, their isValid, and an optional message
+person.$raw; //The raw backing models for the model
+perosn.serialize(); returns a serialized model (using the serialization handlers)
 
-//person.$.validation.fields['age']:
+person.validation.fields['age'] //A computed value over validations state
 //{
 //	errors: ['Field is required']
 //}
 
-person.$.digest() //Triggers all digest listeners
+person.digest() //Triggers all digest listeners (computed values etc.)
 
-//Model methods
+//Static methods
 Person.create();
 Person.get(ID);
 Person.find({name: 'Something'});
 Person.find(/*...*/).populate('friends', 'projects'); //Returns a person with its associated friends and projects populated
 ```
 
-# Model
-A model handles all domain logic for a entity and talks to an adapter to let it do the heavy lifting.
-
 ## Properties
-A model consists of one or many properties. A property handles the mapping / hydration of a field.
+A model consists of one or many properties. A property handles the serialization and validation of a field.
+
 ```javascript
 ORM.Property.Define('String', function () {
 	return {
