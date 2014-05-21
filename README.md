@@ -9,6 +9,15 @@ It handles validation, association (one-to-many, many-to-many) and more.
 It will eventually be open-source, but should be in alpha before it is set to public.
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
 
+# Table of contents
+* [Model](#model) - domain logic, collection of properties
+* [Properties](#properties) - serialization logic
+* [Associations](#associations) - special properties to handle associations
+* [Validation](#validation) - validation of properties
+* [Adapter](#adapter) - business logic and driver interaction
+* [Driver](#driver) - resource wrapper
+* [CacheProvider](#cacheprovider) - cache handling
+
 # Roadmap
 * Basic model definition (models with properties and methods)
 * Adapters and drivers for memory and http. Basic interaction with memory (for testing) and a RESTful resource.
