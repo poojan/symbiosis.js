@@ -19,10 +19,19 @@ Private discussion regarding this project is to be found here: https://sockless.
 * [CacheProvider](#cacheprovider) - cache handling
 
 # Roadmap
-* Basic model definition (models with properties and methods)
-* Adapters and drivers for memory and http. Basic interaction with memory (for testing) and a RESTful resource.
+* ~~done~~
+* Basic model (models with properties and methods)
+	* create model definition (register new model, get registered model)
+	* create model with properties
+		* create and get properties 
+	* create model with methods
+	* associations (serialization and deserialization handler factory)
+* Adapters and drivers 
+	* Standard adapter and memory driver
+	* HTTP driver for RESTful resources. 
 * Validation of properties
-* Associations (serialization and deserialization handler factory)
+	* handle registration of validations
+	* handle validation
 * Angular adapter to use it in the context of an angular appliation
 * Demo application using the ORM
 
