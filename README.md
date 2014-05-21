@@ -7,11 +7,22 @@ An framework agnostic and easily extendible object relational mapping framework 
 It handles validation, association (one-to-many, many-to-many) and more.
 
 It will eventually be open-source, but should be in alpha before it is set to public.
-Discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
+Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
+
+# Roadmap
+* Basic model definition (models with properties and methods)
+* Adapters and drivers for memory and http. Basic interaction with memory (for testing) and a RESTful resource.
+* Validation of properties
+* Associations (serialization and deserialization handler factory)
 
 # Development and building
+The project should make use of traceur to make use of ES6 modules, classes and generators.
+
 Unit-tests run in karma using `karma start`
 Build done with gulp using `gulp build`
+
+# Contributors
+TODO
 
 Usage example:
 =====
