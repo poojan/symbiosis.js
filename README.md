@@ -1,13 +1,17 @@
 Codename: yet another orm :)
 ======
 
+Preliminary readme(!) to give an overall impression of how the API will look in the future.
+
 An framework agnostic and easily extendible object relational mapping framework for the client-side.
 It handles validation, association (one-to-many, many-to-many) and more.
 
-Unit-tests run in karma.
-Build done with gulp.
+It will eventually be open-source, but should be in alpha before it is set to public.
+Discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
 
-Preliminary readme(!) to give an overall impression of how the API will look in the future.
+# Development and building
+Unit-tests run in karma using `karma start`
+Build done with gulp using `gulp build`
 
 Usage example:
 =====
