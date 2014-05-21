@@ -11,8 +11,6 @@ Private discussion regarding this project is to be found here: https://sockless.
 ----------------------
 
 
-
-
 # Table of contents
 * [Model](#model) - domain logic, collection of properties
 * [Properties](#properties) - serialization logic
