@@ -273,7 +273,7 @@ Person.find(/*...*/).populate('friends', 'projects'); //Returns a person with it
 ```
 
 ## Properties
-A model consists of one or many properties. A property handles the serialization and validation of a field.
+A model consists of one or more properties. A property handles the serialization and validation of a field.
 
 ```javascript
 ORM.Property.Define('String', function () {
