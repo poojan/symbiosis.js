@@ -14,6 +14,8 @@ Private discussion regarding this project is to be found here: https://sockless.
 * Adapters and drivers for memory and http. Basic interaction with memory (for testing) and a RESTful resource.
 * Validation of properties
 * Associations (serialization and deserialization handler factory)
+* Angular adapter to use it in the context of an angular appliation
+* Demo application using the ORM
 
 # Development and building
 The project should make use of traceur to make use of ES6 modules, classes and generators.
