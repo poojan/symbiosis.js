@@ -26,6 +26,7 @@ Private discussion regarding this project is to be found here: https://sockless.
 		* create and get properties 
 	* create model with methods
 	* associations (serialization and deserialization handler factory)
+* Injector (basic dependancy injection in place in core)
 * Adapters and drivers 
 	* Standard adapter and memory driver
 	* HTTP driver for RESTful resources. 
