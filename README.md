@@ -345,7 +345,7 @@ ORM.Property.Define('String', function () {
 		validationHandler: function (value, validators) {
 			//return true or false depending on that all the validators for this field says the field is valid
 			return _.every(validators, function(validator) {
-				return validator.validate(value);
+				return validator.isValid(value);
 			});
 		},
 		defaultValue: function() {
