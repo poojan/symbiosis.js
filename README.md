@@ -272,15 +272,30 @@ A model handles all domain logic for a entity and talks to an adapter to let it 
 
 ```javascript
 //Instance methods
-var person = Person.create({ /*..optional data..*/ });
-person.save();
-person.remove();
-person.getUniqueIdentifier(); //Returns models primary keys value or something that when calling Person.get(ID) will return the exact same instance
-person.fullName; //A computed value
-person.validate(); //Returns an array of all fields, their isValid, and an optional message
-person.$raw; //The raw backing models for the model
-perosn.serialize(); returns a serialized model (using the serialization handlers)
+var person = Person.create({ /*..optional data..*/ }); //returns a newed up instance
 
+//Default methods:
+person.remove(); //remove model (talk to the adapter) and also remove it from the context of the ORM
+person.set({name:'Kenneth', age: 25}); //update this instance with new data
+person.getUniqueIdentifier(); //Returns models primary keys value or something that when calling Person.get(ID) will return the exact same instance
+person.validate(); //returns an array of all fields, their isValid, and an optional message
+person.serialize(); //returns a serialized model (using the serialization handlers)
+
+//to keep track of different changes across the application you can use the edit API
+//since we always share the same instance across the whole application, and don't always want changes to be two-way binded,
+//and that we for example want to support using a realtime back-end like firebase
+var edit = person.createEdit(); //returns a edit object with the same data as the person, and a commit method
+edit.name; //returns Kenneth
+edit.name = 'Batman'; 
+edit.commit(); //returns a promise. updates the persons fields with the data from the edit
+//if conflicts with the model arises, use the properties conflictHandlers to solve it
+//TODO: have an API to make it possible to develop features to let the user see the conflicting data
+person.save(); //will check the models changed fields and eventually do an update trough an adapter
+
+//Custom methods
+person.resetPassword();
+
+person.fullName; //A computed value (check advanced user example)
 person.validation.fields['age'] //A computed value over validations state
 //{
 //	errors: ['Field is required']
@@ -291,8 +306,8 @@ person.digest() //Triggers all digest listeners (computed values etc.)
 //Static methods
 Person.create();
 Person.get(ID);
-Person.find({name: 'Something'});
-Person.find(/*...*/).populate('friends', 'projects'); //Returns a person with its associated friends and projects populated
+Person.find({name: 'Something'}); //Returns promise that eventually should resolve into a person with proxies to the persons friends and projects (or the populated data if it already is fetched somewhere else in the application
+Person.find(/*...*/).populate('friends', 'projects'); //Returns promise that eventually resolves into a person with its associated friends and projects populated
 ```
 
 ## Properties
