@@ -141,6 +141,9 @@ var Person = ORM.Model.define('Person', {
 		fullName: function(model) {
 			return model.name + ' ' + model.surname;
 		}
+		validation: function (model) {
+			return model.validate();
+		}
 	},
 	adapter: {
 		configuration: {
@@ -209,40 +212,39 @@ var Person = ORM.Model.define('Person', {
 			});
 		}
 	},
-	onInitializing: function (model) {
-		model = this;
-		model.__isReady = false;
+	hooks: {
+		//Array of functions run on every call to model.digest().
+		//by default the models validators and other stuff is put here
+		//onDigest: function() {},
+		onInitializing: function (model) {
+			model.__isReady = false;
 		
-		//Example of how to bind up the digest of angular to kick of the mocels digest cycle
-		var unbinder = $rootScope.$watch(function() {
-			model.digest();
-		}, angular.noop);
-	
-		return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
-	},
+			//Example of how to bind up the digest of angular to kick of the mocels digest cycle
+			var unbinder = $rootScope.$watch(function() {
+				model.digest();
+			}, angular.noop);
+		
+			return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
+		},
+		onInitialized: function (model) {
+			model.__isReady = true;
+		}
+		//afterLoad : (no parameters) Right after loading and preparing an instance to be used;
+		//afterAutoFetch : (no parameters) Right after auto-fetching associations (if any), it will trigger regardless of having associations or not;
+		//beforeSave : (no parameters) Right before trying to save;
+		//afterSave : (bool success) Right after saving;
+		//beforeCreate : (no parameters) Right before trying to save a new instance (prior to beforeSave);
+		//afterCreate : (bool success) Right after saving a new instance;
+		//beforeRemove : (no parameters) Right before trying to remove an instance;
+		//afterRemove : (bool success) Right after removing an instance;
+		//beforeValidation : (no parameters) Before all validations and prior to beforeCreate and beforeSave
+	}
+
 	destroy: function (deregister) {
 		//Calls the function that was returned from onInitialize
 		deregister();
 	},
-	beforeSave: function () {
 	
-	},
-	afterSave: function () {
-	
-	},
-	beforeRemove: function () {
-	
-	},
-	onInitialized: function (model) {
-		model.__isReady = true;
-	},
-	//Array of functions run on every call to model.digest().
-	//by default the models validators and other stuff is put here
-	onDigest: [
-		'validation': function (model) {
-			model.setValidationErrors(model.validate());
-		}
-	],
 	//Static methods available on the model
 	//Default methods are create, remove, get, findOrCreate, where
 	//The ORM will keep track of models based on ID, and should return the exact
