@@ -412,9 +412,13 @@ var validator = ORM.Validation.get('String', {
 	maxLenght: 20
 });
 
-validator.isValid(1) //returns false
-validator.validate('')//returns {isValid: false, errors: ['Field is required', 'Must have lenght greater than or equal to 4']}
-validator.validate('abcd')// returns {isValid: true}
+validator.isValid(1); //returns false
+validator.validate('');//returns error array
+//Example:
+// err[0].property = "name" , err[0].value = "" , err[0].msg = "missing"
+// err[1].property = "age"  , err[1].value = 15 , err[1].msg = "out-of-range-number"
+// err[2].property = "age"  , err[2].value = 15 , err[2].msg = "outside-list"
+validator.validate('abcd');// returns {isValid: true}
 ```
 
 # Adapter
