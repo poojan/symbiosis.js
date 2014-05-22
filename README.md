@@ -53,7 +53,7 @@ The bare minimum:
 ```javascript
 
 
-var PersonModel = ORM.Model.define('User', {
+var Person = ORM.Model.define('User', {
 		fields: {
 			//Id will by convention become the models primary key
 			id: 'String',
@@ -77,7 +77,7 @@ var PersonModel = ORM.Model.define('User', {
 		}
 	});
 
-var person = PersonModel.create({
+var person = Person.create({
 	firstname: 'Kenneth',
 	surname: 'Lynne',
 	age: 25,
@@ -430,7 +430,7 @@ ORM.Property.Define('Collection', function () {
 
 ## Validation
 ```javascript
-var validator = ORM.Validation('String', {
+var validator = ORM.Validation.get('String', {
 	required: true,
 	minLength: 4,
 	maxLenght: 20
@@ -446,7 +446,7 @@ An adapter handles all interaction with a driver. It is an abstraction from the 
 
 ```javascript
 //Adapters are suppoased to handle all interaction with a driver and cache
-ORM.Adapter.Define('http', function() {
+ORM.Adapter.define('http', function() {
 	return {
 		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
 		//TODO: Check if model exists in cache first, if so, return cached person
@@ -483,7 +483,7 @@ A cache provider handles cache.
 
 ```javascript
 //Cache providers has the responsibility for caching and maintaining serialized data
-ORM.CacheProvider.Define('memory', function () {
+ORM.CacheProvider.define('memory', function () {
 	return {
 		configuration:
 		{
@@ -508,7 +508,7 @@ ORM.CacheProvider.Define('memory', function () {
 	}
 });
 
-ORM.CacheProvider.Define('localStorage', function () {
+ORM.CacheProvider.define('localStorage', function () {
 	return //same interface as for memory
 });
 ```
@@ -538,7 +538,7 @@ Inspiration: https://github.com/dresende/node-orm2/blob/master/lib/Drivers/DML/m
 ```javascript
 //Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
 //Drivers are injected into an adapter
-ORM.Driver.Define('http', function() {
+ORM.Driver.define('http', function() {
 	//TODO
 });
 ```
