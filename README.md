@@ -145,36 +145,8 @@ var Person = ORM.Model.define('Person', {
 			return model.validate();
 		}
 	},
-	adapter: {
-		configuration: {
-			url: 'users'
-		},
-		get: function(model, configuration, cacheProvider, driver, done) { 
-		//TODO: Check if model exists in cache first, if so, return cached person
-		},
-		find: function(model, configuration, cacheProvider, driver, done) { /*...*/ },
-		save: function(model, configuration, cacheProvider, driver, done) {
-			driver[model.id?'post':'put'](configuration.url, model.toJSON())
-				.then(function(person){
-					cacheProvider.update(model, person);
-					done(null, person); //ORM will map the response to an instance of the model.
-				});
-		},
-		remove: function (model, configuration, cacheProvider, driver, done) {
-	
-		},
-		resetPassword: function(model, configuration, cacheProvider, driver, done)
-		{
-		},
-		customMethod: function(model, configuration, cacheProvider, driver, done) {
-		}
-	},
-	driver: {
-	//TODO
-		get: function() {
-		
-		}
-	},
+	adapter: 'adapterName',
+	driver: 'driverName',
 	cacheProvider: {
 	//TODO
 		//Basic CRUD methods, default cacheProvider stores data in memory
@@ -455,6 +427,9 @@ An adapter handles all interaction with a driver. It is an abstraction from the 
 //Adapters are suppoased to handle all interaction with a driver and cache
 ORM.Adapter.define('http', function() {
 	return {
+		configuration: {
+			url: 'users'
+		},
 		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
 		//TODO: Check if model exists in cache first, if so, return cached person
 		//TODO: If queryParameters is an object we should build a query string based on query parameters
