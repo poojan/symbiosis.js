@@ -145,12 +145,9 @@ var Person = ORM.Model.define('Person', {
 			return model.validate();
 		}
 	},
-	adapter: 'adapterName',
-	driver: 'driverName',
-	cacheProvider: {
-	//TODO
-		//Basic CRUD methods, default cacheProvider stores data in memory
-	},
+	adapter: 'CRUD',
+	driver: 'http',
+	cacheProvider: 'Memory',
 	validation: {
 		//Overrides default property validators
 		name: ORM.Validation('String', {
