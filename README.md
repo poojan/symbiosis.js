@@ -115,12 +115,12 @@ var Person = ORM.Define('Person', {
 		age: 'Number',
 		friends: {
 			hasMany: 'Person',
-			lazyload: true, //Load association by manually populating fields e.g. model.$.hydrate('friends', 'books');
+			lazyload: true, //Load association by manually populating fields e.g. model.populate('friends', 'books');
 			eagerload: true //Load on initialization
 		}
 	},
 	//Instance methods
-	//Default methods: save, remove, set, sync, ...
+	//Default methods: save, remove, set, sync, serialize...
 	//Sync will load the latest data from the resource and if there is a conflict it will run a provided
 	//conflict handler.
 	//Then it will save all dirty properties and omit non-dirty ones using the provided adapter
@@ -142,8 +142,7 @@ var Person = ORM.Define('Person', {
 			url: 'users'
 		},
 		get: function(model, configuration, cacheProvider, driver, done) { 
-		/*. Check if model exists in cache first, if so, return cached person
-		..*/
+		//TODO: Check if model exists in cache first, if so, return cached person
 		},
 		find: function(model, configuration, cacheProvider, driver, done) { /*...*/ },
 		save: function(model, configuration, cacheProvider, driver, done) {
@@ -163,11 +162,13 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	driver: {
+	//TODO
 		get: function() {
 		
 		}
 	},
 	cacheProvider: {
+	//TODO
 		//Basic CRUD methods, default cacheProvider stores data in memory
 	},
 	validation: {
@@ -204,10 +205,12 @@ var Person = ORM.Define('Person', {
 		}
 	},
 	onInitializing: function (model) {
-		model.$.isReady = false;
-	
+		model = this;
+		model.__isReady = false;
+		
+		//Example of how to bind up the digest of angular to kick of the mocels digest cycle
 		var unbinder = $rootScope.$watch(function() {
-			model.$.digest();
+			model.digest();
 		}, angular.noop);
 	
 		return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
@@ -226,14 +229,14 @@ var Person = ORM.Define('Person', {
 	
 	},
 	onInitialized: function (model) {
-		model.$.isReady = true;
+		model.__isReady = true;
 	},
+	//Array of functions run on every call to model.digest().
+	//by default the models validators and other stuff is put here
 	onDigest: [
-		'validator': function (model) {
-			model.$$setValidationErrors(model.validate());
+		'validation': function (model) {
+			model.setValidationErrors(model.validate());
 		}
-		//Array of functions run on every call to model.digest().
-		//by default the models validators and other stuff is put here
 	],
 	//Static methods available on the model
 	//Default methods are create, remove, get, findOrCreate, where
