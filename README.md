@@ -106,7 +106,7 @@ Advanced example:
 ```javascript
 
 ORM.Configuration.setDefaultDriver('http');
-ORM.Configuration.setDefaultAdapter('http');
+ORM.Configuration.setDefaultAdapter('CRUD');
 ORM.Configuration.setDefaultCacheProvider('localStorage');
 
 var Person = ORM.Model.define('Person', {
