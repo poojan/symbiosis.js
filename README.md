@@ -3,12 +3,18 @@ Codename: yet another orm :)
 
 An framework agnostic and easily extendible object relational mapping framework written in ES6. Its mainly developed for the client-side for the next generation of web-applications. It handles validation, association (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
 
+## Features
+* Associations
+* Validation
+* Caching
+* Extendible
+* Awesome
+
 ---------------------- 
 Preliminary readme(!) to give an overall impression of how the API will look in the future.
 It will eventually be open-source, but should be in alpha before it is set to public.
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
 ----------------------
-
 
 # Table of contents
 * [Model](#model) - domain logic, collection of properties
