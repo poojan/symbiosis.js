@@ -53,7 +53,7 @@ The bare minimum:
 ```javascript
 
 
-var PersonModel = ORM.Model.Define('User', {
+var PersonModel = ORM.Model.define('User', {
 		fields: {
 			//Id will by convention become the models primary key
 			id: 'String',
@@ -104,7 +104,7 @@ ORM.Configuration.setDefaultDriver('http');
 ORM.Configuration.setDefaultAdapter('http');
 ORM.Configuration.setDefaultCacheProvider('localStorage');
 
-var Person = ORM.Define('Person', {
+var Person = ORM.Model.Define('Person', {
 	fields: {
 		//Behind the scenes these fields are mapped into property instances (read more further down)
 		name: {
@@ -272,6 +272,37 @@ var Person = ORM.Define('Person', {
 
 # Model
 A model handles all domain logic for a entity and talks to an adapter to let it do the heavy lifting.
+
+## Defining a model
+```javascript
+var PersonModel = ORM.Model.define('User', {
+		fields: {
+			//Id will by convention become the models primary key
+			id: 'String',
+			firstname: 'String',
+			surname: 'String',
+			age: 'Number',
+			createdDate: {
+				type: 'Date',
+				persistable: false //will not be included when model is serialized
+			},
+			friends: {
+				hasMany: 'User'
+			}
+		},
+		//Model will use its default http adapter, configuring it to interface with some
+		//restfull API endpoint
+		adapter: {
+			configuration: {
+				baseUrl: 'http://example.com/api/users'
+			}
+		}
+	});
+```
+## Getting a model constructor
+```javascript
+var Person = ORM.Model.get('Person');
+```
 
 ```javascript
 //Instance methods
