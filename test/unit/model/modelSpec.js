@@ -2,8 +2,6 @@
 import {ORM} from '../../../src/orm.js';
 
 describe('ORM', function () {
-  var ORM = window.ORM;
-
   describe('Model', function () {
 
     it('should be defined', function () {
