@@ -188,7 +188,7 @@ var Person = ORM.Model.define('Person', {
 		onInitializing: function (model) {
 			model.__isReady = false;
 		
-			//Example of how to bind up the digest of angular to kick of the mocels digest cycle
+			//Example of how to bind up the digest of angular to kick of the models digest cycle
 			var unbinder = $rootScope.$watch(function() {
 				model.digest();
 			}, angular.noop);
