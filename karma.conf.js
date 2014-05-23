@@ -9,14 +9,18 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'requirejs', 'traceur'],
 
+    preprocessors: {
+      'src/**/*.js': ['traceur'],
+      'test/unit/**/*.js': ['traceur']
+    },
 
     // list of files / patterns to load in the browser
     files: [
-      'src/**/*.js',
-      'test/unit/**/*.js'
+      {pattern: 'src/**/*.js', included: false},
+      {pattern: 'test/**/*Spec.js', included: false},
+      'test/test-main.js'
     ],
 
 
@@ -25,11 +29,13 @@ module.exports = function(config) {
       
     ],
 
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    
+    traceurPreprocessor: {
+      options: {
+        sourceMap: true,
+        modules: 'requirejs',
+        annotations: true,
+        types: true
+      }
     },
 
 
@@ -58,7 +64,11 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
+
+
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout: 60000,
 
 
     // Continuous Integration mode
