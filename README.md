@@ -46,11 +46,11 @@ Private discussion regarding this project is to be found here: https://sockless.
 # Development and building
 The project should make use of traceur to make use of ES6 modules, classes and generators.
 
-Unit-tests run in karma using `./node_modules/karma/bin/karma start` (do not use the global karma, it'll need some local dependencies)
+Unit-tests run in karma using `karma start`
 Build done with gulp using `gulp build`
 
 # Contributors
-TODO
+[Kenneth Lynne](https://github.com/kennethlynne)
 
 Usage example:
 =====
