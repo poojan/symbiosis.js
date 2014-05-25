@@ -1,5 +1,6 @@
-Symbiosis.js
-======
+[![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js)
+
+-----------------------------------
 
 An framework agnostic and easily extendible object relational mapping framework written in ES6.
 Its mainly developed for the client-side for the next generation of web-applications.
@@ -19,8 +20,6 @@ and to give an overall impression of how the API will look in the future.
 
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
 send me (kenneth.lynne@gmail.com) a request if you want to take part in the discussion.
-
-----------------------
 
 # Table of contents
 * [Model](#model) - domain logic, collection of properties
