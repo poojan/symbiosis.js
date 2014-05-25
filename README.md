@@ -21,7 +21,45 @@ and to give an overall impression of how the API will look in the future.
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
 send me (kenneth.lynne@gmail.com) a request if you want to take part in the discussion.
 
+### Installation
+This library is not in a working state just yet, but send your pull-request and see it happen sooner than later.
+
+```bash
+# Clone this repo (or your fork).
+git clone https://github.com/kennethlynne/symbiosis.js.git
+
+# Install all the the dev dependencies, such as Karma, Gulp, etc.
+npm install
+
+# If you wanna use "karma" or "gulp" commands, install also:
+npm install -g karma-cli
+npm install -g gulp
+ ```
+### Development and building
+The project should make use of traceur to make use of ES6 modules, classes and generators.
+
+### Running the [tests](./test/)
+This will start Karma and Chrome (with `--harmony` enabled). Karma will watch the source code and run the tests anytime you save a change.
+
+```bash
+karma start
+```
+
+### Transpiling ES6
+All the source code is written in the upcoming version of JavaScript - ES6. In order to use it in the current browsers you need to transpile the code into ES5 using [Traceur].
+
+
+```bash
+# Transpile ES6 into ./compiled/*
+gulp build
+
+# Watch all the sources and transpile on any change
+gulp watch
+```
+
+
 # Table of contents
+-----------------------
 * [Model](#model) - domain logic, collection of properties
 * [Properties](#properties) - serialization logic
 * [Associations](#associations) - special properties to handle associations
@@ -30,7 +68,6 @@ send me (kenneth.lynne@gmail.com) a request if you want to take part in the disc
 * [Driver](#driver) - resource wrapper
 * [CacheProvider](#cacheprovider) - cache handling
 
-------------------
 
 # Roadmap
 * ~~done~~
@@ -50,11 +87,6 @@ send me (kenneth.lynne@gmail.com) a request if you want to take part in the disc
 * Angular adapter to use it in the context of an angular appliation
 * Demo application using the ORM
 
-# Development and building
-The project should make use of traceur to make use of ES6 modules, classes and generators.
-
-Unit-tests run in karma using `karma start`
-Build done with gulp using `gulp build`
 
 # Contributors
 [Kenneth Lynne](https://github.com/kennethlynne)
