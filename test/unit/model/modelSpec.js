@@ -9,8 +9,9 @@ describe('ORM', function () {
     });
 
     describe('define', function () {
-      it('should return a model', function() {
+      it('should return a model that extends the base model', function() {
         var Person = ORM.Model.define('Person', {});
+        expect(Person instanceof BaseModel).toBeTruthy();
       });
     });
 
