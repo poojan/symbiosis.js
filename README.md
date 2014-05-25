@@ -14,6 +14,24 @@ It handles validation, association (one-to-many, many-to-many), caching and more
 * Extendable
 * Awesome
 
+# Roadmap
+* ~~done~~
+* Basic model (models with properties and methods)
+	* create model definition (register new model, get registered model)
+	* create model with properties
+		* create and get properties
+	* create model with methods
+	* associations (serialization and deserialization handler factory)
+* Injector (basic dependancy injection in place in core)
+* Adapters and drivers
+	* Standard adapter and memory driver
+	* HTTP driver for RESTful resources.
+* Validation of properties
+	* handle registration of validations
+	* handle validation
+* Angular adapter to use it in the context of an angular appliation
+* Demo application using the ORM
+
 ---------------------- 
 Preliminary readme(!) to serve as an arcitechture and design proposal,
 and to give an overall impression of how the API will look in the future.
@@ -57,9 +75,7 @@ gulp build
 gulp watch
 ```
 
-
 # Table of contents
------------------------
 * [Model](#model) - domain logic, collection of properties
 * [Properties](#properties) - serialization logic
 * [Associations](#associations) - special properties to handle associations
@@ -67,26 +83,6 @@ gulp watch
 * [Adapter](#adapter) - business logic and driver interaction
 * [Driver](#driver) - resource wrapper
 * [CacheProvider](#cacheprovider) - cache handling
-
-
-# Roadmap
-* ~~done~~
-* Basic model (models with properties and methods)
-	* create model definition (register new model, get registered model)
-	* create model with properties
-		* create and get properties 
-	* create model with methods
-	* associations (serialization and deserialization handler factory)
-* Injector (basic dependancy injection in place in core)
-* Adapters and drivers 
-	* Standard adapter and memory driver
-	* HTTP driver for RESTful resources. 
-* Validation of properties
-	* handle registration of validations
-	* handle validation
-* Angular adapter to use it in the context of an angular appliation
-* Demo application using the ORM
-
 
 # Contributors
 * Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
