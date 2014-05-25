@@ -425,7 +425,7 @@ validator.validate('abcd');// returns '[]'
 An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It also handles caching.
 
 ```javascript
-//Adapters are suppoased to handle all interaction with a driver and cache
+//Adapters are supposed to handle all interaction with a driver and the cache provider
 ORM.Adapter.define('http', function() {
 	return {
 		configuration: {
