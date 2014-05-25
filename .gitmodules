@@ -1,0 +1,3 @@
+[submodule "di.js"]
+	path = di.js
+	url = https://github.com/angular/di.js.git
