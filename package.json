@@ -4,7 +4,7 @@
   "description": "Yet another ORM",
   "main": "symbiosis.src.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,12 @@
     "url": "https://github.com/kennethlynne/symbiosis.js/issues"
   },
   "homepage": "https://github.com/kennethlynne/symbiosis.js",
+  "dependencies": {
+    "traceur": "~0.0.33",
+    "es6-shim": "~0.11.0"
+  },
   "devDependencies": {
     "gulp": "^3.6.2",
-    "gulp-connect": "^2.0.5",
     "gulp-traceur": "^0.6.0",
     "karma": "~0.12",
     "karma-chrome-launcher": "~0.1",
