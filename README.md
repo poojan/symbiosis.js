@@ -50,7 +50,7 @@ All the source code is written in the upcoming version of JavaScript - ES6. In o
 
 
 ```bash
-# Transpile ES6 into ./compiled/*
+# Transpile ES6 into ./dist/*
 gulp build
 
 # Watch all the sources and transpile on any change
