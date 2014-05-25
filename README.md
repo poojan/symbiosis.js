@@ -16,8 +16,10 @@ It handles validation, association (one-to-many, many-to-many), caching and more
 ---------------------- 
 Preliminary readme(!) to serve as an arcitechture and design proposal,
 and to give an overall impression of how the API will look in the future.
+
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
-send me (kenneth.lynne@gmail.com) a request if yo uwant to take part in the discussion
+send me (kenneth.lynne@gmail.com) a request if you want to take part in the discussion.
+
 ----------------------
 
 # Table of contents
@@ -28,6 +30,8 @@ send me (kenneth.lynne@gmail.com) a request if yo uwant to take part in the disc
 * [Adapter](#adapter) - business logic and driver interaction
 * [Driver](#driver) - resource wrapper
 * [CacheProvider](#cacheprovider) - cache handling
+
+------------------
 
 # Roadmap
 * ~~done~~
