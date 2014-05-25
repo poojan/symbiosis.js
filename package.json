@@ -1,14 +1,14 @@
 {
-  "name": "yet-another-orm",
+  "name": "symbiosis.js",
   "version": "0.0.0",
   "description": "Yet another ORM",
-  "main": "yet-another-orm.js",
+  "main": "symbiosis.src.js",
   "scripts": {
     "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kennethlynne/yet-another-orm.git"
+    "url": "https://github.com/kennethlynne/symbiosis.js.git"
   },
   "keywords": [
     "orm"
@@ -16,9 +16,9 @@
   "author": "Kenneth Lynne <kenneth.lynne@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kennethlynne/yet-another-orm/issues"
+    "url": "https://github.com/kennethlynne/symbiosis.js/issues"
   },
-  "homepage": "https://github.com/kennethlynne/yet-another-orm",
+  "homepage": "https://github.com/kennethlynne/symbiosis.js",
   "devDependencies": {
     "gulp": "^3.6.2",
     "gulp-traceur": "^0.6.0",

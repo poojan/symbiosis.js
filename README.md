@@ -1,4 +1,4 @@
-Codename: yet another orm :)
+Symbiosis.js
 ======
 
 An framework agnostic and easily extendible object relational mapping framework written in ES6.
@@ -14,9 +14,10 @@ It handles validation, association (one-to-many, many-to-many), caching and more
 * Awesome
 
 ---------------------- 
-Preliminary readme(!) to give an overall impression of how the API will look in the future.
-It will eventually be open-source, but should be in alpha before it is set to public.
+Preliminary readme(!) to serve as an arcitechture and design proposal,
+and to give an overall impression of how the API will look in the future.
 Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
+send me (kenneth.lynne@gmail.com) a request if yo uwant to take part in the discussion
 ----------------------
 
 # Table of contents

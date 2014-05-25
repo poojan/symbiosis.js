@@ -1,12 +1,12 @@
 {
-  "name": "yet-another-orm",
+  "name": "symbiosis.js",
   "version": "0.0.0",
-  "homepage": "https://github.com/kennethlynne/yet-another-orm",
+  "homepage": "https://github.com/kennethlynne/symbiosis.js",
   "authors": [
     "Kenneth Lynne <kenneth.lynne@gmail.com>"
   ],
-  "description": "Yet another ORM",
-  "main": "yet-another-orm.js",
+  "description": "A framework agnostic and easily extendible object relational mapping framework written in ES6 mainly developed for the client-side for the next generation of web-applications.",
+  "main": "symbiosis.src.js",
   "keywords": [
     "orm"
   ],
