@@ -2,7 +2,7 @@
 
 -----------------------------------
 
-An framework agnostic and easily extendible object relational mapping framework written in ES6.
+A framework agnostic and easily extendible object relational mapping framework written in ES6.
 Its mainly developed for the client-side for the next generation of web-applications.
 It relies on [di.js](https://github.com/angular/di.js) for dependancy injection.
 It handles validation, association (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
