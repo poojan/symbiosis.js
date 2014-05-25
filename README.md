@@ -7,7 +7,7 @@ An framework agnostic and easily extendible object relational mapping framework 
 * Associations
 * Validation
 * Caching
-* Extendible
+* Extendable
 * Awesome
 
 ---------------------- 
@@ -275,7 +275,7 @@ var PersonModel = ORM.Model.define('User', {
 		}
 	});
 ```
-## Getting a model constructor
+## Getting a models constructor
 ```javascript
 var Person = ORM.Model.get('Person');
 ```
@@ -298,8 +298,9 @@ var edit = person.createEdit(); //returns a edit object with the same data as th
 edit.name; //returns Kenneth
 edit.name = 'Batman'; 
 edit.commit(); //returns a promise. updates the persons fields with the data from the edit
-//if conflicts with the model arises, use the properties conflictHandlers to solve it
-//TODO: have an API to make it possible to develop features to let the user see the conflicting data
+//if conflicts with the model arises, use the properties conflictHandlers to solve it.
+If the conflict is not resolved automatically a rejection will be thrown,
+and it is up to the developer to handle the rejection and return the new value.
 person.save(); //will check the models changed fields and eventually do an update trough an adapter
 
 //Custom methods
@@ -415,10 +416,9 @@ var validator = ORM.Validation.get('String', {
 validator.isValid(1); //returns false
 validator.validate('');//returns error array
 //Example:
-// err[0].property = "name" , err[0].value = "" , err[0].msg = "missing"
-// err[1].property = "age"  , err[1].value = 15 , err[1].msg = "out-of-range-number"
-// err[2].property = "age"  , err[2].value = 15 , err[2].msg = "outside-list"
-validator.validate('abcd');// returns {isValid: true}
+// err[0].property = "name" , err[0].value = "" , err[0].msg = "Name is required"
+// err[1].property = "age"  , err[1].value = 15 , err[1].msg = "Number is out of range (1-100)"
+validator.validate('abcd');// returns '[]'
 ```
 
 # Adapter
