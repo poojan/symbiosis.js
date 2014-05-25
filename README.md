@@ -89,7 +89,8 @@ gulp watch
 
 
 # Contributors
-[Kenneth Lynne](https://github.com/kennethlynne)
+Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
+Poojan Shrestha - [https://github.com/poojan](https://github.com/poojan)
 
 Usage example:
 =====
