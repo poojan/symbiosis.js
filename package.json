@@ -21,13 +21,13 @@
   "homepage": "https://github.com/kennethlynne/symbiosis.js",
   "devDependencies": {
     "gulp": "^3.6.2",
+    "gulp-connect": "^2.0.5",
     "gulp-traceur": "^0.6.0",
-
     "karma": "~0.12",
+    "karma-chrome-launcher": "~0.1",
     "karma-cli": "~0.0.4",
-    "karma-requirejs": "~0.2.1",
-    "karma-traceur-preprocessor": "~0.1",
     "karma-jasmine": "~0.1",
-    "karma-chrome-launcher": "~0.1"
+    "karma-requirejs": "~0.2.1",
+    "karma-traceur-preprocessor": "~0.1"
   }
 }
