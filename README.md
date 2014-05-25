@@ -364,7 +364,7 @@ Person.find(/*...*/).populate('friends', 'projects'); //Returns promise that eve
 A model consists of one or more properties. A property handles the serialization and validation of a field.
 
 ```javascript
-ORM.Property.Define('String', function () {
+ORM.Property.define('String', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
@@ -406,7 +406,7 @@ ORM.Property.Define('String', function () {
 ## Associations
 An association between the different models is handled by special "collection" properties. This property simply does the mapping of an id to a model and back.
 ```javascript
-ORM.Property.Define('Collection', function () {
+ORM.Property.define('Collection', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
