@@ -4,21 +4,45 @@ var gulp = require('gulp');
 var clean = require('gulp-clean');
 var traceur = require('gulp-traceur');
 
+var path = {
+  src: './src/**/*.js',
+  pkg: './package.json'
+};
+
 gulp.task('clean', function () {
   gulp.src('dist/**/*', { read: false })
     .pipe(clean({ force: true }));
 });
 
-gulp.task('traceur', function () {
-  gulp.src('src/**/*.js')
-    .pipe(traceur())
-    .pipe(gulp.dest('dist'));
+gulp.task('build_source_amd', function () {
+  gulp.src(path.src)
+    .pipe(traceur({
+      modules: 'amd',
+      types: true,
+      annotations: true,
+      typeAssertions: true,
+      typeAssertionModule: 'assert'
+    }))
+    .pipe(gulp.dest('dist/amd'));
 });
 
-gulp.task('build', ['clean', 'traceur']);
+gulp.task('build_source_cjs', function () {
+  gulp.src(path.src)
+    .pipe(traceur({
+      modules: 'commonjs',
+      types: true,
+      annotations: true,
+      typeAssertions: true,
+      typeAssertionModule: 'assert'
+    }))
+    .pipe(gulp.dest('dist/cjs'));
+});
 
-gulp.task('watch', ['build'], function () {
-  gulp.watch('src/**/*.js', ['build']);
+gulp.task('build_dist', ['build_source_cjs', 'build_source_amd']);
+gulp.task('build', ['build_dist']);
+
+gulp.task('watch', function () {
+  gulp.watch(path.src, ['build']);
 });
 
 gulp.task('default', ['build']);
