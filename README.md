@@ -15,7 +15,8 @@ It handles validation, association (one-to-many, many-to-many), caching and more
 * Awesome
 
 # Roadmap
-* ~~done~~
+* ~~Build and environment~~
+* Scaffolding
 * Basic model (models with properties and methods)
 	* create model definition (register new model, get registered model)
 	* create model with properties
