@@ -187,7 +187,7 @@ var Person = ORM.Model.define('Person', {
 	cacheProvider: 'Memory',
 	validation: {
 		//Overrides default property validators
-		name: ORM.Validation('String', {
+		name: ORM.Validation.get('String', {
 				required: true,
 				minLength: 10,
 				maxLenght: 20
@@ -336,8 +336,8 @@ edit.name; //returns Kenneth
 edit.name = 'Batman'; 
 edit.commit(); //returns a promise. updates the persons fields with the data from the edit
 //if conflicts with the model arises, use the properties conflictHandlers to solve it.
-If the conflict is not resolved automatically a rejection will be thrown,
-and it is up to the developer to handle the rejection and return the new value.
+//If the conflict is not resolved automatically a rejection will be thrown,
+//and it is up to the developer to handle the rejection and return the new value.
 person.save(); //will check the models changed fields and eventually do an update trough an adapter
 
 //Custom methods
@@ -443,7 +443,11 @@ ORM.Property.define('Collection', function () {
 ```
 
 ## Validation
-```javascript
+```
+ORM.Validation.define('String', function () {
+//TODO
+});
+
 var validator = ORM.Validation.get('String', {
 	required: true,
 	minLength: 4,
