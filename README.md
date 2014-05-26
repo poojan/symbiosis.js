@@ -5,7 +5,7 @@
 A framework agnostic and easily extendible object relational mapping framework written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 Its mainly developed for the client-side for the next generation of web-applications.
 It relies on [di.js](https://github.com/angular/di.js) for dependancy injection and [assert](http://angular.github.io/assert/) for type checking during development.
-It handles validation, association (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
+It handles validation, associations (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
 
 ## Features
 * Associations
