@@ -1,4 +1,4 @@
-[![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js)
+[![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js) [![Build Status](https://travis-ci.org/kennethlynne/symbiosis.js.svg?branch=master)](https://travis-ci.org/kennethlynne/symbiosis.js)
 
 -----------------------------------
 
