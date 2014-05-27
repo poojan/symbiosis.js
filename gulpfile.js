@@ -38,8 +38,7 @@ gulp.task('build_source_cjs', function () {
     .pipe(gulp.dest('dist/cjs'));
 });
 
-gulp.task('build_dist', ['build_source_cjs', 'build_source_amd']);
-gulp.task('build', ['build_dist']);
+gulp.task('build', ['build_source_cjs', 'build_source_amd']);
 
 gulp.task('watch', function () {
   gulp.watch(path.src, ['build']);
