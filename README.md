@@ -1,11 +1,11 @@
-[![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js)
+[![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js) [![Build Status](https://travis-ci.org/kennethlynne/symbiosis.js.svg?branch=master)](https://travis-ci.org/kennethlynne/symbiosis.js)
 
 -----------------------------------
 
-A framework agnostic and easily extendible object relational mapping framework written in ES6.
+A framework agnostic and easily extendible object relational mapping framework written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 Its mainly developed for the client-side for the next generation of web-applications.
-It relies on [di.js](https://github.com/angular/di.js) for dependancy injection.
-It handles validation, association (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
+It relies on [di.js](https://github.com/angular/di.js) for dependancy injection and [assert](http://angular.github.io/assert/) for type checking during development.
+It handles validation, associations (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
 
 ## Features
 * Associations
@@ -13,6 +13,25 @@ It handles validation, association (one-to-many, many-to-many), caching and more
 * Caching
 * Extendable
 * Awesome
+
+# Roadmap
+* ~~Build and environment~~
+* Scaffolding
+* Basic model (models with properties and methods)
+	* create model definition (register new model, get registered model)
+	* create model with properties
+		* create and get properties
+	* create model with methods
+	* associations (serialization and deserialization handler factory)
+* Injector (basic dependancy injection in place in core)
+* Adapters and drivers
+	* Standard adapter and memory driver
+	* HTTP driver for RESTful resources.
+* Validation of properties
+	* handle registration of validations
+	* handle validation
+* Angular adapter to use it in the context of an angular appliation
+* Demo application using the ORM
 
 ---------------------- 
 Preliminary readme(!) to serve as an arcitechture and design proposal,
@@ -38,7 +57,7 @@ npm install -g gulp
 ### Development and building
 The project should make use of traceur to make use of ES6 modules, classes and generators.
 
-### Running the [tests](./test/)
+### Running the [tests](./test/unit)
 This will start Karma and Chrome (with `--harmony` enabled). Karma will watch the source code and run the tests anytime you save a change.
 
 ```bash
@@ -57,9 +76,7 @@ gulp build
 gulp watch
 ```
 
-
 # Table of contents
------------------------
 * [Model](#model) - domain logic, collection of properties
 * [Properties](#properties) - serialization logic
 * [Associations](#associations) - special properties to handle associations
@@ -68,28 +85,9 @@ gulp watch
 * [Driver](#driver) - resource wrapper
 * [CacheProvider](#cacheprovider) - cache handling
 
-
-# Roadmap
-* ~~done~~
-* Basic model (models with properties and methods)
-	* create model definition (register new model, get registered model)
-	* create model with properties
-		* create and get properties 
-	* create model with methods
-	* associations (serialization and deserialization handler factory)
-* Injector (basic dependancy injection in place in core)
-* Adapters and drivers 
-	* Standard adapter and memory driver
-	* HTTP driver for RESTful resources. 
-* Validation of properties
-	* handle registration of validations
-	* handle validation
-* Angular adapter to use it in the context of an angular appliation
-* Demo application using the ORM
-
-
 # Contributors
-[Kenneth Lynne](https://github.com/kennethlynne)
+* Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
+* Poojan Shrestha - [https://github.com/poojan](https://github.com/poojan)
 
 Usage example:
 =====
@@ -189,7 +187,7 @@ var Person = ORM.Model.define('Person', {
 	cacheProvider: 'Memory',
 	validation: {
 		//Overrides default property validators
-		name: ORM.Validation('String', {
+		name: ORM.Validation.get('String', {
 				required: true,
 				minLength: 10,
 				maxLenght: 20
@@ -338,8 +336,8 @@ edit.name; //returns Kenneth
 edit.name = 'Batman'; 
 edit.commit(); //returns a promise. updates the persons fields with the data from the edit
 //if conflicts with the model arises, use the properties conflictHandlers to solve it.
-If the conflict is not resolved automatically a rejection will be thrown,
-and it is up to the developer to handle the rejection and return the new value.
+//If the conflict is not resolved automatically a rejection will be thrown,
+//and it is up to the developer to handle the rejection and return the new value.
 person.save(); //will check the models changed fields and eventually do an update trough an adapter
 
 //Custom methods
@@ -364,7 +362,7 @@ Person.find(/*...*/).populate('friends', 'projects'); //Returns promise that eve
 A model consists of one or more properties. A property handles the serialization and validation of a field.
 
 ```javascript
-ORM.Property.Define('String', function () {
+ORM.Property.define('String', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
@@ -406,7 +404,7 @@ ORM.Property.Define('String', function () {
 ## Associations
 An association between the different models is handled by special "collection" properties. This property simply does the mapping of an id to a model and back.
 ```javascript
-ORM.Property.Define('Collection', function () {
+ORM.Property.define('Collection', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
@@ -445,7 +443,11 @@ ORM.Property.Define('Collection', function () {
 ```
 
 ## Validation
-```javascript
+```
+ORM.Validation.define('String', function () {
+//TODO
+});
+
 var validator = ORM.Validation.get('String', {
 	required: true,
 	minLength: 4,
@@ -596,3 +598,5 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-46835353-1/symbiosis.js/README)](https://github.com/igrigorik/ga-beacon)
