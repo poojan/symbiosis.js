@@ -33,6 +33,7 @@
     "karma-jasmine": "~0.1",
     "karma-requirejs": "~0.2.1",
     "karma-traceur-preprocessor": "~0.1",
-    "gulp-jshint": "~1.6.1"
+    "gulp-jshint": "~1.6.1",
+    "gulp-shell": "~0.2.5"
   }
 }

@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var clean = require('gulp-clean');
 var traceur = require('gulp-traceur');
 var jshint = require('gulp-jshint');
+var shell = require('gulp-shell');
 
 var path = {
   src: './src/**/*.js',
@@ -45,10 +46,12 @@ gulp.task('build_source_cjs', function () {
     .pipe(gulp.dest('dist/cjs'));
 });
 
+gulp.task('test', shell.task('karma start --singleRun=true'));
+
 gulp.task('build', ['build_source_cjs', 'build_source_amd']);
 
 gulp.task('watch', function () {
   gulp.watch(path.src, ['build']);
 });
 
-gulp.task('default', ['jshint', 'build']);
+gulp.task('default', ['jshint', 'test', 'build']);
