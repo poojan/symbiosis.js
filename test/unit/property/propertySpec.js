@@ -1,5 +1,8 @@
-"use strict";
+/* global describe, it, expect */
+'use strict';
+
 import {ORM} from '../../../src/orm.js';
+import {BaseProperty} from '../../../src/property/base/property.js';
 
 describe('ORM', function () {
   describe('Property', function () {
