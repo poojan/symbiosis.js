@@ -5,7 +5,7 @@ export class BaseProperty {
    * @param name Property name
    * @param propertyDefinition Property definition object
    */
-  define(name, propertyDefinition) {
+  define(/*name, propertyDefinition*/) {
     throw Error('Not implemented');
   }
 

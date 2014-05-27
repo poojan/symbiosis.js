@@ -5,7 +5,7 @@ export class BaseModel {
    * @param name Model name
    * @param modelDefinition Model definition object
    */
-  define(name, modelDefinition) {
-    throw Error('Not implemented');
+  define(/*name, propertyDefinition*/) {
+    throw new Error('Not implemented');
   }
 }

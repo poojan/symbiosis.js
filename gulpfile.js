@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var traceur = require('gulp-traceur');
+var jshint = require('gulp-jshint');
 
 var path = {
   src: './src/**/*.js',
@@ -10,12 +11,18 @@ var path = {
 };
 
 gulp.task('clean', function () {
-  gulp.src('dist/**/*', { read: false })
+  return gulp.src('dist/**/*', { read: false })
     .pipe(clean({ force: true }));
 });
 
+gulp.task('jshint', function () {
+  return gulp.src(path.src)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
 gulp.task('build_source_amd', function () {
-  gulp.src(path.src)
+  return gulp.src(path.src)
     .pipe(traceur({
       modules: 'amd',
       types: true,
@@ -27,7 +34,7 @@ gulp.task('build_source_amd', function () {
 });
 
 gulp.task('build_source_cjs', function () {
-  gulp.src(path.src)
+  return gulp.src(path.src)
     .pipe(traceur({
       modules: 'commonjs',
       types: true,
@@ -44,4 +51,4 @@ gulp.task('watch', function () {
   gulp.watch(path.src, ['build']);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['jshint', 'build']);
