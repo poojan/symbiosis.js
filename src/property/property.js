@@ -1,3 +1,7 @@
+'use strict';
+
+import {BaseProperty} from './base/property.js';
+
 export var Property = {
 
   /**
@@ -6,6 +10,6 @@ export var Property = {
    * @param propertyDefinition Property definition object
    */
   define: function (name, propertyDefinition) {
-    throw Error('Not implemented');
+    return new BaseProperty(name, propertyDefinition);
   }
 };

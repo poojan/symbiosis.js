@@ -1,11 +1,18 @@
-var gulp = require('gulp'),
-  traceur = require('gulp-traceur'),
+'use strict';
 
-  path = {
-    src: './src/**/*.js',
-    pkg: './package.json'
-  };
+var gulp = require('gulp');
+var clean = require('gulp-clean');
+var traceur = require('gulp-traceur');
 
+var path = {
+  src: './src/**/*.js',
+  pkg: './package.json'
+};
+
+gulp.task('clean', function () {
+  gulp.src('dist/**/*', { read: false })
+    .pipe(clean({ force: true }));
+});
 
 gulp.task('build_source_amd', function () {
   gulp.src(path.src)
@@ -37,3 +44,5 @@ gulp.task('build', ['build_dist']);
 gulp.task('watch', function () {
   gulp.watch(path.src, ['build']);
 });
+
+gulp.task('default', ['build']);

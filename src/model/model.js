@@ -1,3 +1,8 @@
+
+'use strict';
+
+import {BaseModel} from './base/model.js';
+
 export var Model = {
 
   /**
@@ -6,6 +11,6 @@ export var Model = {
    * @param modelDefinition Model definition object
    */
   define: function (name, modelDefinition) {
-    throw Error('Not implemented');
+    return new BaseModel(name, modelDefinition);
   }
 };
