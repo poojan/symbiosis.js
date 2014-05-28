@@ -101,13 +101,13 @@ gulp watch
 ```
 
 # Table of contents
-* [Model](#model) - domain logic, collection of properties
-* [Properties](#properties) - serialization logic
-* [Associations](#associations) - special properties to handle associations
-* [Validation](#validation) - validation of properties
-* [Adapter](#adapter) - business logic and driver interaction
-* [Driver](#driver) - resource wrapper
-* [CacheProvider](#cacheprovider) - cache handling
+* [Model](src/model/README.md) - domain logic, collection of properties
+* [Properties](src/property/README.md) - serialization logic
+* [Associations](src/property/README.md) - special properties to handle associations
+* [Validation](src/validation/README.md) - validation of properties
+* [Adapter](src/validation/README.md) - business logic and driver interaction
+* [Driver](src/driver/README.md) - resource wrapper
+* [CacheProvider](src/cacheprovider/README.md) - cache handling
 
 # Contributors
 * Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
@@ -116,7 +116,7 @@ gulp watch
 
 Usage example:
 =====
-The bare minimum:
+# The bare minimum:
 ```javascript
 
 
@@ -156,7 +156,7 @@ var person = Person.create({
 });
 
 //person.firstname: Kenneth
-//person.friends[0] is whatever PersonModel.getById('5') returns, namely a instantiated person
+//person.friends[0] is whatever PersonModel.getById('5') returns (a person instance)
 
 person.save(); //will do a post to the back-end, 
 //and whatever the back-end returns (a person with and id and createdDate etc) will set this instances 
@@ -164,7 +164,7 @@ person.save(); //will do a post to the back-end,
 //save() returns a promise, but we do not need it in this example.
 ```
 
-Advanced example:
+# Advanced example:
 ```javascript
 
 ORM.Configuration.setDefaultDriver('http');
@@ -307,291 +307,6 @@ var Person = Symbiosis.Model.define('Person', {
 	}
 });
 ```
-
-# Model
-A model handles all domain logic for a entity and talks to an adapter to let it do the heavy lifting.
-
-## Defining a model
-```javascript
-var PersonModel = Symbiosis.Model.define('User', {
-		fields: {
-			//Id will by convention become the models primary key
-			id: 'String',
-			firstname: 'String',
-			surname: 'String',
-			age: 'Number',
-			createdDate: {
-				type: 'Date',
-				persistable: false //will not be included when model is serialized
-			},
-			friends: {
-				hasMany: 'User'
-			}
-		},
-		//Model will use its default http adapter, configuring it to interface with some
-		//restfull API endpoint
-		adapter: {
-			configuration: {
-				baseUrl: 'http://example.com/api/users'
-			}
-		}
-	});
-```
-## Getting a models constructor
-```javascript
-var Person = Symbiosis.Model.get('Person');
-```
-
-```javascript
-//Instance methods
-var person = Person.create({ /*..optional data..*/ }); //returns a newed up instance
-
-//Default methods:
-person.remove(); //remove model (talk to the adapter) and also remove it from the context of the ORM
-person.set({name:'Kenneth', age: 25}); //update this instance with new data
-person.getUniqueIdentifier(); //Returns models primary keys value or something that when calling Person.get(ID) will return the exact same instance
-person.validate(); //returns an array of all fields, their isValid, and an optional message
-person.serialize(); //returns a serialized model (using the serialization handlers)
-
-//to keep track of different changes across the application you can use the edit API
-//since we always share the same instance across the whole application, and don't always want changes to be two-way binded,
-//and that we for example want to support using a realtime back-end like firebase
-var edit = person.createEdit(); //returns a edit object with the same data as the person, and a commit method
-edit.name; //returns Kenneth
-edit.name = 'Batman'; 
-edit.commit(); //returns a promise. updates the persons fields with the data from the edit
-//if conflicts with the model arises, use the properties conflictHandlers to solve it.
-//If the conflict is not resolved automatically a rejection will be thrown,
-//and it is up to the developer to handle the rejection and return the new value.
-person.save(); //will check the models changed fields and eventually do an update trough an adapter
-
-//Custom methods
-person.resetPassword();
-
-person.fullName; //A computed value (check advanced user example)
-person.validation.fields['age'] //A computed value over validations state
-//{
-//	errors: ['Field is required']
-//}
-
-person.digest() //Triggers all digest listeners (computed values etc.)
-
-//Static methods
-Person.create();
-Person.get(ID);
-Person.find({name: 'Something'}); //Returns promise that eventually should resolve into a person with proxies to the persons friends and projects (or the populated data if it already is fetched somewhere else in the application
-Person.find(/*...*/).populate('friends', 'projects'); //Returns promise that eventually resolves into a person with its associated friends and projects populated
-```
-
-## Properties
-A model consists of one or more properties. A property handles the serialization and validation of a field.
-
-```javascript
-Symbiosis.Property.define('String', function () {
-	return {
-		//function is called with the fields value and the configuration
-		//and should return whatever should be the serialized value, 
-		//OR void/undefined if it should be omitted on serialization
-		serializationHandler: function (value, configuration) {
-			//Should return the value that should be passed on
-			//when serialized before sending data of to a resource
-			if(configuration.persistable === false) return;
-			return String(value || '');
-		},
-		conflictHandler: function (localValue, resourceValue, model, resource) {
-			//This method is called on model.sync() whenever there is a conflict
-			//between a resource and local values
-			//Should return the merged value
-			//The default handler returns the resourceValue
-			//Can for example do a time comparison for a last write wins.
-			return resourceValue;
-		},
-		deserializationHandler: function (value, configuration) {
-			//return the value that should be a valid instance of the field, 
-			//for example a instanciated user if it is an association, 
-			//or a text parsed into a number if it is a number field.
-			return String(value || '');
-		},
-		validationHandler: function (value, validators) {
-			//return true or false depending on that all the validators for this field says the field is valid
-			return _.every(validators, function(validator) {
-				return validator.isValid(value);
-			});
-		},
-		defaultValue: function() {
-			//Should return the default value that a new instance of this field will be populated with
-			return '';
-		}
-	}
-});
-```
-
-## Associations
-An association between the different models is handled by special "collection" properties. This property simply does the mapping of an id to a model and back.
-```javascript
-Symbiosis.Property.define('Collection', function () {
-	return {
-		//function is called with the fields value and the configuration
-		//and should return whatever should be the serialized value, 
-		//OR void/undefined if it should be omitted on serialization
-		serializationHandler: function (value, configuration) {
-			//Should return the value that should be passed on
-			//when serialized before sending data of to a resource
-			//TODO: Return either an id or an array of ids based on if the attribute is asMany or hasOne 
-		},
-		conflictHandler: function (localValue, resourceValue, model, resource) {
-			//This method is called on model.sync() whenever there is a conflict
-			//between a resource and local values
-			//Should return the merged value
-			//The default handler returns the resourceValue
-			//Can for example do a time comparison for a last write wins.
-			return resourceValue;
-		},
-		deserializationHandler: function (value, configuration) {
-			//return the value that should be a valid instance of the field, 
-			//for example a instanciated user if it is an association, 
-			//or a text parsed into a number if it is a number field.
-			return String(value.id);
-		},
-		validationHandler: function (value, model, validators) {
-			//return true or false depending on that all the validators for this field says the field is valid
-			//TODO: Validate required?
-			//TODO: Ask the model instance itself to validate its properties recursiely.
-			//TODO: Avoid infinite recursion
-		},
-		defaultValue: function() {
-			//Should return the default value that a new instance of this field will be populated with
-			return '';
-		}
-	}
-});
-```
-
-## Validation
-```
-Symbiosis.Validation.define('String', function () {
-//TODO
-});
-
-var validator = Symbiosis.Validation.get('String', {
-	required: true,
-	minLength: 4,
-	maxLenght: 20
-});
-
-validator.isValid(1); //returns false
-validator.validate('');//returns error array
-//Example:
-// err[0].property = "name" , err[0].value = "" , err[0].msg = "Name is required"
-// err[1].property = "age"  , err[1].value = 15 , err[1].msg = "Number is out of range (1-100)"
-validator.validate('abcd');// returns '[]'
-```
-
-# Adapter
-An adapter handles all interaction with a driver. It is an abstraction from the actual communication with a resource. It also handles caching.
-
-```javascript
-//Adapters are supposed to handle all interaction with a driver and the cache provider
-Symbiosis.Adapter.define('http', function() {
-	return {
-		configuration: {
-			url: 'users'
-		},
-		get: function(queryParameters, configuration, cacheProvider, driver, done) { 
-		//TODO: Check if model exists in cache first, if so, return cached person
-		//TODO: If queryParameters is an object we should build a query string based on query parameters
-			var id = queryParameters;
-			driver.get(id, configuration.url)
-				.then(function(person){
-					done(null, person); //ORM will map the response to an instance of the model.
-				})
-				.catch(function(err){
-					done(err);
-				});
-		},
-		save: function(model, configuration, cacheProvider, driver, done) {
-		//TODO: Do a patch request with only values that have changed since last sync()
-			driver[model.id?'post':'put'](configuration.url, model.toJSON())
-				.then(function(person){
-					cacheProvider.update(model, person);
-					done(null, person); //ORM will map the response to an instance of the model.
-				});
-		},
-		remove: function (model, configuration, cacheProvider, driver, done) {
-			driver.remove(configuration.url, )
-				.then(function(person){
-					cacheProvider.update(model, person);
-					done(null, person); //ORM will map the response to an instance of the model.
-				});
-		}
-	}
-});
-```
-## CacheProvider
-A cache provider handles cache.
-
-```javascript
-//Cache providers has the responsibility for caching and maintaining serialized data
-Symbiosis.CacheProvider.define('memory', function () {
-	return {
-		configuration:
-		{
-			maxAge: 900000, // Items added to this cache expire after 15 minutes.
-		}
-		create: function(configuration, key, data) {
-			//...
-		},
-		read: function(configuration, key) {
-			//...
-		}, 
-		update: function(configuration, key, data) {
-			//...
-		}, 
-		delete: function(configuration, key) {
-			//...
-		},
-		flush: function(configuration) {
-			//This method will be called every now and then 
-			//and is responsible for removing outdated data from cache
-		}
-	}
-});
-
-Symbiosis.CacheProvider.define('localStorage', function () {
-	return //same interface as for memory
-});
-```
-# Driver
-A driver handles all interaction with a resource (local storage, REST API etc.)
-It must adhere to this interface(!) to make adapters driver agnostic.
-Methods:
-TODO: Implement a clear and concise description of each and every method
-Inspiration: https://github.com/dresende/node-orm2/blob/master/lib/Drivers/DML/mongodb.js
-
-* insert
-* find
-* sync
-* drop
-* update
-* remove
-* clear
-* count
-* ping
-* on
-* connect
-* close
-* hasMany (?)
-* hasOne (?)
-
-
-```javascript
-//Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
-//Drivers are injected into an adapter
-Symbiosis.Driver.define('http', function() {
-	//TODO
-});
-```
-
 
 Building and testing
 ====================
