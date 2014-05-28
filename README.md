@@ -1,13 +1,32 @@
 [![symbiosis.js logo](https://raw.githubusercontent.com/kennethlynne/symbiosis.js/master/logo.png)](https://raw.githubusercontent.com/kennethlynne/symbiosis.js) [![Build Status](https://travis-ci.org/kennethlynne/symbiosis.js.svg?branch=master)](https://travis-ci.org/kennethlynne/symbiosis.js)
 
+----------------------
+Preliminary readme(!) to serve as an arcitechture and design proposal,
+and to give an overall impression of how the API will look in the future.
+
+Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
+send me (kenneth.lynne@gmail.com) a request if you want to take part in the discussion.
+
 -----------------------------------
 
-A framework agnostic and easily extendible object relational mapping framework written in ES6 (also transpiled into ES5 Common JS and AMD modules).
-Its mainly developed for the client-side for the next generation of web-applications.
-It relies on [di.js](https://github.com/angular/di.js) for dependancy injection and [assert](http://angular.github.io/assert/) for type checking during development.
-It handles validation, associations (one-to-many, many-to-many), caching and more and makes your day as a developer awesome!
+A framework agnostic and easily extendible object relational mapping framework for the next generation of web-applications.
+
+It will help you to abstract and implement business logic in intuitive entities. It handles object relational mapping
+and helps you create maintanable code for interfacing with different resources (memory, REST API, localStorage etc.).
+It works just as good in the context of an Angular application as in an ember, vanilla and the-next-big-thing.
+It handles validation, associations, caching and more to make your day awesome!
+
+You can have data spread out over different resources, be it firebase, an API and local storage, but ORM handles all the hard stuff
+and lets you focus on the business logic and making your application awesome.
+With a framework agnostic approach it is possible to reuse all of your models and business logic across different frameworks.
+Moving your codebase from Angular 1.x.x to Angular 2? It will *just work*.
+Drivers and adapters are the only thing that needs to adapt.
+
+Written in ES6 (also transpiled into ES5 Common JS and AMD modules).
+
 
 ## Features
+* Models
 * Associations
 * Validation
 * Caching
@@ -30,18 +49,23 @@ It handles validation, associations (one-to-many, many-to-many), caching and mor
 * Validation of properties
 	* handle registration of validations
 	* handle validation
-* Angular adapter to use it in the context of an angular appliation
+* Angular adapter to use it in the context of an angular application
+* Fluent API wrapper
 * Demo application using the ORM
 
----------------------- 
-Preliminary readme(!) to serve as an arcitechture and design proposal,
-and to give an overall impression of how the API will look in the future.
-
-Private discussion regarding this project is to be found here: https://sockless.slack.com/messages/orm/
-send me (kenneth.lynne@gmail.com) a request if you want to take part in the discussion.
 
 ### Installation
 This library is not in a working state just yet, but send your pull-request and see it happen sooner than later.
+
+# Install trough NPM
+```bash
+npm install symbiosis.js --save
+```
+
+# Install trough bower
+```bash
+bower install symbiosis.js --save
+```
 
 ```bash
 # Clone this repo (or your fork).
@@ -65,7 +89,7 @@ karma start
 ```
 
 ### Transpiling ES6
-All the source code is written in the upcoming version of JavaScript - ES6. In order to use it in the current browsers you need to transpile the code into ES5 using [Traceur].
+All the source code is written in the upcoming version of JavaScript - ES6. In order to use it in the current browsers you need to transpile the code into ES5 using [Traceur](https://github.com/google/traceur-compiler).
 
 
 ```bash
@@ -88,6 +112,7 @@ gulp watch
 # Contributors
 * Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
 * Poojan Shrestha - [https://github.com/poojan](https://github.com/poojan)
+* Alexander Beletsky - [https://github.com/alexanderbeletsky](https://github.com/alexanderbeletsky)
 
 Usage example:
 =====
