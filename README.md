@@ -120,7 +120,7 @@ The bare minimum:
 ```javascript
 
 
-var Person = ORM.Model.define('User', {
+var Person = Symbiosis.Model.define('User', {
 		fields: {
 			//Id will by convention become the models primary key
 			id: 'String',
@@ -168,10 +168,10 @@ Advanced example:
 ```javascript
 
 ORM.Configuration.setDefaultDriver('http');
-ORM.Configuration.setDefaultAdapter('CRUD');
-ORM.Configuration.setDefaultCacheProvider('localStorage');
+Symbiosis.Configuration.setDefaultAdapter('CRUD');
+Symbiosis.Configuration.setDefaultCacheProvider('localStorage');
 
-var Person = ORM.Model.define('Person', {
+var Person = Symbiosis.Model.define('Person', {
 	fields: {
 		//Behind the scenes these fields are mapped into property instances (read more further down)
 		name: {
@@ -212,7 +212,7 @@ var Person = ORM.Model.define('Person', {
 	cacheProvider: 'Memory',
 	validation: {
 		//Overrides default property validators
-		name: ORM.Validation.get('String', {
+		name: Symbiosis.Validation.get('String', {
 				required: true,
 				minLength: 10,
 				maxLenght: 20
@@ -239,7 +239,7 @@ var Person = ORM.Model.define('Person', {
 		//Create a factory that can do this mapping, and handle lazyloading and eager loading gracefully
 		friends: function(value) {
 			return value.map(function(personId){
-				return ORM.Models.get('Person').get(personId);
+				return Symbiosis.Models.get('Person').get(personId);
 			});
 		}
 	},
@@ -278,7 +278,7 @@ var Person = ORM.Model.define('Person', {
 	
 	//Static methods available on the model
 	//Default methods are create, remove, get, findOrCreate, where
-	//The ORM will keep track of models based on ID, and should return the exact
+	//The Symbiosis will keep track of models based on ID, and should return the exact
 	//same instance of a model on subsequest gets.
 	//var a = Person.get(5);
 	//var b = Person.get(5);
@@ -313,7 +313,7 @@ A model handles all domain logic for a entity and talks to an adapter to let it 
 
 ## Defining a model
 ```javascript
-var PersonModel = ORM.Model.define('User', {
+var PersonModel = Symbiosis.Model.define('User', {
 		fields: {
 			//Id will by convention become the models primary key
 			id: 'String',
@@ -339,7 +339,7 @@ var PersonModel = ORM.Model.define('User', {
 ```
 ## Getting a models constructor
 ```javascript
-var Person = ORM.Model.get('Person');
+var Person = Symbiosis.Model.get('Person');
 ```
 
 ```javascript
@@ -387,7 +387,7 @@ Person.find(/*...*/).populate('friends', 'projects'); //Returns promise that eve
 A model consists of one or more properties. A property handles the serialization and validation of a field.
 
 ```javascript
-ORM.Property.define('String', function () {
+Symbiosis.Property.define('String', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
@@ -429,7 +429,7 @@ ORM.Property.define('String', function () {
 ## Associations
 An association between the different models is handled by special "collection" properties. This property simply does the mapping of an id to a model and back.
 ```javascript
-ORM.Property.define('Collection', function () {
+Symbiosis.Property.define('Collection', function () {
 	return {
 		//function is called with the fields value and the configuration
 		//and should return whatever should be the serialized value, 
@@ -469,11 +469,11 @@ ORM.Property.define('Collection', function () {
 
 ## Validation
 ```
-ORM.Validation.define('String', function () {
+Symbiosis.Validation.define('String', function () {
 //TODO
 });
 
-var validator = ORM.Validation.get('String', {
+var validator = Symbiosis.Validation.get('String', {
 	required: true,
 	minLength: 4,
 	maxLenght: 20
@@ -492,7 +492,7 @@ An adapter handles all interaction with a driver. It is an abstraction from the 
 
 ```javascript
 //Adapters are supposed to handle all interaction with a driver and the cache provider
-ORM.Adapter.define('http', function() {
+Symbiosis.Adapter.define('http', function() {
 	return {
 		configuration: {
 			url: 'users'
@@ -532,7 +532,7 @@ A cache provider handles cache.
 
 ```javascript
 //Cache providers has the responsibility for caching and maintaining serialized data
-ORM.CacheProvider.define('memory', function () {
+Symbiosis.CacheProvider.define('memory', function () {
 	return {
 		configuration:
 		{
@@ -557,7 +557,7 @@ ORM.CacheProvider.define('memory', function () {
 	}
 });
 
-ORM.CacheProvider.define('localStorage', function () {
+Symbiosis.CacheProvider.define('localStorage', function () {
 	return //same interface as for memory
 });
 ```
@@ -587,7 +587,7 @@ Inspiration: https://github.com/dresende/node-orm2/blob/master/lib/Drivers/DML/m
 ```javascript
 //Drivers handle all interaction with a resource (HTTP, WebSQL, localStorage etc.
 //Drivers are injected into an adapter
-ORM.Driver.define('http', function() {
+Symbiosis.Driver.define('http', function() {
 	//TODO
 });
 ```

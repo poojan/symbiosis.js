@@ -1,23 +1,21 @@
 /* global describe, it, expect */
 'use strict';
 
-import {ORM} from '../../../src/orm.js';
+import {Symbiosis} from '../../../src/symbiosis.js';
 import {BaseModel} from '../../../src/model/base/model.js';
 
-describe('ORM', function () {
+describe('Symbiosis', function () {
   describe('Model', function () {
 
     it('should be defined', function () {
-      expect(ORM.Model).toBeDefined();
+      expect(Symbiosis.Model).toBeDefined();
     });
 
     describe('define', function () {
       it('should return a model that extends the base model', function() {
-        var Person = ORM.Model.define('Person', {});
+        var Person = Symbiosis.Model.define('Person', {});
         expect(Person instanceof BaseModel).toBeTruthy();
       });
     });
-
   });
-
 });

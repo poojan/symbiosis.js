@@ -1,19 +1,19 @@
 /* global describe, it, expect */
 'use strict';
 
-import {ORM} from '../../../src/orm.js';
+import {Symbiosis} from '../../../src/symbiosis.js';
 import {BaseProperty} from '../../../src/property/base/property.js';
 
 describe('ORM', function () {
   describe('Property', function () {
 
     it('should be defined', function () {
-      expect(ORM.Property).toBeDefined();
+      expect(Symbiosis.Property).toBeDefined();
     });
 
     describe('define', function () {
       it('should return a property that extends the base property', function() {
-        var Property = ORM.Property.define('String', {});
+        var Property = Symbiosis.Property.define('String', {});
         expect(Property instanceof BaseProperty).toBeTruthy();
       });
     });
