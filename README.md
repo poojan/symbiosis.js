@@ -24,6 +24,17 @@ Drivers and adapters are the only thing that needs to adapt.
 
 Written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 
+# Table of contents
+* [Features](#features)
+* [Roadmao](#roadmap)
+* [Installation](#installation)
+* [Model](src/model/README.md) - domain logic, collection of properties
+* [Properties](src/property/README.md) - serialization logic
+* [Associations](src/property/README.md#associations) - special properties to handle associations
+* [Validation](src/validation/README.md) - validation of properties
+* [Adapter](src/validation/README.md) - business logic and driver interaction
+* [Driver](src/driver/README.md) - resource wrapper
+* [CacheProvider](src/cacheprovider/README.md) - cache handling
 
 ## Features
 * Models
@@ -99,15 +110,6 @@ gulp build
 # Watch all the sources and transpile on any change
 gulp watch
 ```
-
-# Table of contents
-* [Model](src/model/README.md) - domain logic, collection of properties
-* [Properties](src/property/README.md) - serialization logic
-* [Associations](src/property/README.md) - special properties to handle associations
-* [Validation](src/validation/README.md) - validation of properties
-* [Adapter](src/validation/README.md) - business logic and driver interaction
-* [Driver](src/driver/README.md) - resource wrapper
-* [CacheProvider](src/cacheprovider/README.md) - cache handling
 
 # Contributors
 * Kenneth Lynne (Maintainer) - [https://github.com/kennethlynne](https://github.com/kennethlynne)
