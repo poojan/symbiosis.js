@@ -26,7 +26,7 @@ Written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 
 # Table of contents
 * [Features](#features)
-* [Roadmao](#roadmap)
+* [Roadmap](#roadmap)
 * [Installation](#installation)
 * [Model](src/model/README.md) - domain logic, collection of properties
 * [Properties](src/property/README.md) - serialization logic
