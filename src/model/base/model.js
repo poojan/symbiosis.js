@@ -1,11 +1,30 @@
-export class BaseModel {
+class ModelInstance {
+  constructor(definition) {
+    this.definition = definition;
+  }
 
-  /**
-   * Define a model
-   * @param name Model name
-   * @param modelDefinition Model definition object
-   */
-  define(/*name, propertyDefinition*/) {
-    throw new Error('Not implemented');
+  remove() {
+    this.removed = true;
+  }
+
+  getRemoved() {
+    return this.removed;
+  }
+
+  set(options) {
+    var self = this;
+    Object.keys(options).forEach(function (key) {
+      self[key] = options[key];
+    });
+  }
+}
+
+export class BaseModel {
+  constructor(definition) {
+    this.definition = definition;
+  }
+
+  create() {
+    return new ModelInstance(this.definition);
   }
 }

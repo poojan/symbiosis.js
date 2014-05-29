@@ -1,4 +1,13 @@
 {
+  "predef": {
+    "describe",
+    "beforeEach",
+    "afterEach",
+    "before",
+    "after",
+    "it",
+    "expect"
+  },
   "node": true,
   "esnext": true,
   "bitwise": true,
