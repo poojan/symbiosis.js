@@ -34,6 +34,12 @@ class ModelInstance {
   //TODO: person.serialize(); //returns a serialized model (using the serialization handlers)
 
   //TODO: person.digest() //Triggers all digest listeners (computed values etc.)
+  //the digest is supposed to make the model kick of an array of listeners.
+  //Listeners may be validators and computed values for instance.
+  //It is basically to be able to calculate different values at a given rate.
+  //For example you have a $digest() in angular also that calls all watchers
+  //to do different stuff on scope and trigger DOM events and changes based on the scopes data
+  //digest = "eat all properties, and update your state accordingly"
 
   set(options) {
     var self = this;

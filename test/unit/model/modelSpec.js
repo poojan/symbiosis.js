@@ -28,6 +28,11 @@ describe('Symbiosis', function () {
               hasMany: 'User'
             }
           },
+          computedValues: {
+            fullName: function (model) {
+              return model.firstname + ' ' + model.surname;
+            }
+          },
           adapter: {
             configuration: {
               baseUrl: 'http://example.com/api/users'
@@ -107,9 +112,15 @@ describe('Symbiosis', function () {
           });
 
           describe('when digest', function () {
+            it('should set the computed values of the model', function () {
+              instance.digest();
+              expect(instance.fullName).toBe('');
 
+              instance.firstname = 'Kenneth';
+              instance.surname = 'Lynne';
+              expect(instance.fullName).toBe('Kenneth Lynne');
+            });
           });
-
 
         });
 
