@@ -68,7 +68,6 @@ describe('Symbiosis', function () {
             });
 
             it('should be removed', function () {
-              expect(instance.getRemoved()).toBeTruthy();
             });
 
           });

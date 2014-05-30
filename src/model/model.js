@@ -13,6 +13,9 @@ export var Model = {
    */
   define: function (name, modelDefinition) {
     //TODO: Use factory, and register an instance of the model
+    //TODO: Pass ModelFactory dependancies (property, adapter, validation..)
+    //TODO: Maybe factory should be a function that can be automatically dependancy injected?
+    //di.js anyone?
     return definitions[name] = ModelFactory.create(modelDefinition);
   },
 
