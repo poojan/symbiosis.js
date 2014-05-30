@@ -1,7 +1,7 @@
 'use strict';
 
 import {Symbiosis} from '../../../src/symbiosis.js';
-import {BaseModel} from '../../../src/model/base/model.js';
+import {BaseModel} from '../../../src/model/base/base-model.js';
 
 describe('Symbiosis', function () {
   describe('Model', function () {

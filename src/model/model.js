@@ -1,7 +1,6 @@
-
 'use strict';
 
-import {BaseModel} from './base/model.js';
+import {ModelFactory} from './factory.js'
 
 var definitions = {};
 
@@ -13,18 +12,17 @@ export var Model = {
    * @param modelDefinition Model definition object
    */
   define: function (name, modelDefinition) {
-    var base = new BaseModel(modelDefinition);
-    definitions[name] = base;
-
-    return base;
+    //TODO: Use factory, and register an instance of the model
+    return definitions[name] = ModelFactory.create(modelDefinition);
   },
 
   /**
-  * Get model by name
-  * @param name Model name
-  * @returns model
-  */
+   * Get model by name
+   * @param name Model name
+   * @returns model
+   */
   get: function (name) {
     return definitions[name];
   }
+
 };

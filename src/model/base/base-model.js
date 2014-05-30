@@ -1,8 +1,6 @@
-class ModelInstance {
-  constructor(definition) {
-    this.definition = definition;
-  }
+'use strict';
 
+class ModelInstance {
   remove() {
     this.removed = true;
   }
@@ -20,11 +18,13 @@ class ModelInstance {
 }
 
 export class BaseModel {
-  constructor(definition) {
-    this.definition = definition;
+
+  constructor(adapter) {
+    //Register instances adapter, properties etc.
   }
 
   create() {
-    return new ModelInstance(this.definition);
+    return new ModelInstance();
   }
+
 }
