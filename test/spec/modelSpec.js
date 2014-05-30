@@ -1,27 +1,38 @@
+import {Symbiosis} from '../../../src/symbiosis.js';
+
 describe('model specs', function () {
   describe('when model is persisted', function () {
+    var User, model, id, fetched;
+
     beforeEach(function () {
-      // define model
+      User = Symbiosis.Model.define('User', {
+        firstname: 'string',
+        lastname: 'string'
+      });
     });
 
     beforeEach(function () {
-      // initialize model with data
+      model = User.create({firstname: 'Kenny', lastname: 'McKormic'})
     });
 
-    beforeEach(function () {
-      // save the model
+    beforeEach(function (done) {
+      model.save().then(function (model) {
+        id = model.id;
+      });
     });
 
-    beforeEach(function () {
-      // get by id
+    beforeEach(function (done) {
+      User.get(id).then(function (model) {
+        fetched = model;
+      });
     });
 
     it('should be persisted', function () {
-      // verify that model have proper id after save
+      expect(id).toBeDefined();
     });
 
     it('should be fetched', function () {
-      // verify that model restored and all properties initialized
+      expect(fetched.compare({firstname: 'Kenny', lastname: 'McKormic'})).toBeTruthy();
     });
   })
 });
