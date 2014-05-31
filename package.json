@@ -1,11 +1,22 @@
 {
   "name": "symbiosis.js",
   "version": "0.0.0",
-  "description": "Yet another ORM",
+  "description": "Framework agnostic ORM for the next generation web-apps",
   "main": "symbiosis.src.js",
   "scripts": {
     "test": "gulp test"
   },
+  "contributors": [
+    {
+      "name": "kennethlynne"
+    },
+    {
+      "name": "poojan"
+    },
+    {
+      "name": "alexanderbeletsky"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kennethlynne/symbiosis.js.git"
