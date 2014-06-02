@@ -1,4 +1,6 @@
-import {Symbiosis} from '../../../src/symbiosis.js';
+/* global describe, it, expect */
+
+import {Symbiosis} from '../../src/symbiosis.js';
 
 describe('model specs', function () {
   describe('when model is persisted', function () {
@@ -15,13 +17,13 @@ describe('model specs', function () {
       model = User.create({firstname: 'Kenny', lastname: 'McKormic'})
     });
 
-    beforeEach(function (done) {
+    beforeEach(function () {
       model.save().then(function (model) {
         id = model.id;
       });
     });
 
-    beforeEach(function (done) {
+    beforeEach(function () {
       User.get(id).then(function (model) {
         fetched = model;
       });
