@@ -13,7 +13,8 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.js': ['traceur'],
-      'test/unit/**/*.js': ['traceur']
+      'test/unit/**/*.js': ['traceur'],
+      'test/spec/**/*.js': ['traceur']
     },
 
     // list of files / patterns to load in the browser
