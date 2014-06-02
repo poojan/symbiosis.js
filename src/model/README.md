@@ -1,3 +1,6 @@
+//TODO: Pass ModelFactory dependancies (property, adapter, validation..)
+//TODO: Maybe factory should be a function that can be automatically dependancy injected?
+
 # Model
 A model handles all domain logic for a entity and talks to an adapter to let it do the heavy lifting.
 

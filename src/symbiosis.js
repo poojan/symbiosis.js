@@ -1,7 +1,11 @@
-import {Model} from './model/model.js';
-import {Property} from './property/property.js';
+import {Module} from './core/module.js';
+import {PropertyFactory} from './property/property-factory.js';
+import {ModelFactory} from './model/model-factory.js';
+import {ValidationFactory} from './validation/validation-factory.js';
 
 export var Symbiosis = {
-  Model,
-  Property
+  Model: new Module(ModelFactory),
+  Property: new Module(PropertyFactory),
+  Validation: new Module(ValidationFactory)
 };
+

@@ -2,7 +2,7 @@
 'use strict';
 
 import {Symbiosis} from '../../../src/symbiosis.js';
-import {BaseProperty} from '../../../src/property/base/property.js';
+import {BaseProperty} from '../../../src/property/base/base-property.js';
 
 describe('ORM', function () {
   describe('Property', function () {

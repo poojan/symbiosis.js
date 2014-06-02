@@ -1,4 +1,24 @@
-'use strict';
+//Static methods!?
+export class BaseModel {
+
+  constructor(adapter) {
+    //Register instances adapter, properties etc.
+    this.__context = []; //Use some ES6 data structure more suited?
+  }
+
+  create(data) {
+    var properties = [];
+    return new ModelInstance(properties, data, this);
+  }
+
+  //TODO: Person.get(ID);
+  //TODO: Person.find({name: 'Something'});
+  // Returns promise that eventually should resolve into a person with proxies to the persons friends and projects
+  // (or the populated data if it already is fetched somewhere else in the application
+  //TODO: Person.find(/*...*/).populate('friends', 'projects');
+  // Returns promise that eventually resolves into a person with its associated friends and projects populated
+
+}
 
 class ModelInstance {
 
@@ -49,25 +69,4 @@ class ModelInstance {
       self[key] = options[key];
     });
   }
-}
-
-export class BaseModel {
-
-  constructor(adapter) {
-    //Register instances adapter, properties etc.
-    this.__context = []; //Use some ES6 data structure more suited?
-  }
-
-  create(data) {
-    var properties = [];
-    return new ModelInstance(properties, data, this);
-  }
-
-  //TODO: Person.get(ID);
-  //TODO: Person.find({name: 'Something'});
-  // Returns promise that eventually should resolve into a person with proxies to the persons friends and projects
-  // (or the populated data if it already is fetched somewhere else in the application
-  //TODO: Person.find(/*...*/).populate('friends', 'projects');
-  // Returns promise that eventually resolves into a person with its associated friends and projects populated
-
 }
