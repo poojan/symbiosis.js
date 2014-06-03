@@ -2,7 +2,7 @@
 
 import {Module} from '../../../src/core/module.js';
 
-xdescribe('Symbiosis', function () {
+describe('Symbiosis', function () {
   describe('Core', function () {
     describe('Module', function () {
 
@@ -13,7 +13,7 @@ xdescribe('Symbiosis', function () {
       describe('when module defined', function () {
         var module,
           mockFactory = jasmine.createSpy('factory.create')
-            .andCallFake(function () {
+            .and.callFake(function () {
               return 'Mock result';
             });
 
