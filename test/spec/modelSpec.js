@@ -2,7 +2,7 @@
 
 import {Symbiosis} from '../../src/symbiosis.js';
 
-describe('model specs', function () {
+xdescribe('model specs', function () {
   describe('when model is persisted', function () {
     var User, model, id, fetched;
 
@@ -17,15 +17,17 @@ describe('model specs', function () {
       model = User.create({firstname: 'Kenny', lastname: 'McKormic'})
     });
 
-    beforeEach(function () {
+    beforeEach(function (done) {
       model.save().then(function (model) {
         id = model.id;
+        done();
       });
     });
 
-    beforeEach(function () {
+    beforeEach(function (done) {
       User.get(id).then(function (model) {
         fetched = model;
+        done();
       });
     });
 

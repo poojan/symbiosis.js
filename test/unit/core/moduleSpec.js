@@ -2,7 +2,7 @@
 
 import {Module} from '../../../src/core/module.js';
 
-describe('Symbiosis', function () {
+xdescribe('Symbiosis', function () {
   describe('Core', function () {
     describe('Module', function () {
 
@@ -42,4 +42,3 @@ describe('Symbiosis', function () {
     });
   })
 });
-

@@ -31,7 +31,9 @@ describe('Symbiosis', function () {
           },
           computedValues: {
             fullName: function (model) {
-              return model.firstname + ' ' + model.surname;
+              if (model.firstname && model.surname) {
+                return model.firstname + ' ' + model.surname;
+              }
             }
           },
           adapter: {
@@ -113,13 +115,28 @@ describe('Symbiosis', function () {
           });
 
           describe('when digest', function () {
-            it('should set the computed values of the model', function () {
+            beforeEach(function () {
               instance.digest();
-              expect(instance.fullName).toBe('');
+            });
 
-              instance.firstname = 'Kenneth';
-              instance.surname = 'Lynne';
-              expect(instance.fullName).toBe('Kenneth Lynne');
+            it('should set the computed values of the model', function () {
+              expect(instance.fullName).toBe('');
+            });
+
+            xdescribe('and fields initalized', function () {
+              beforeEach(function () {
+                instance.firstname = 'Kenneth';
+                instance.surname = 'Lynne';
+              });
+
+              beforeEach(function () {
+                instance.digest();
+              });
+
+              it('should be re-computed', function () {
+                expect(instance.fullName).toBe('Kenneth Lynne');
+              });
+
             });
           });
 

@@ -1,8 +1,9 @@
 //Static methods!?
 export class BaseModel {
 
-  constructor(adapter) {
+  constructor(definition, adapter) {
     //Register instances adapter, properties etc.
+    this.definition = definition;
     this.__context = []; //Use some ES6 data structure more suited?
   }
 
@@ -22,10 +23,10 @@ export class BaseModel {
 
 class ModelInstance {
 
-  contructor(properties, data, context) {
+  constructor(properties, data, context) {
     this.context = context;
     this.properties = properties;
-    set(data);
+    this.set(data);
   }
 
   remove() {
@@ -61,12 +62,32 @@ class ModelInstance {
   //to do different stuff on scope and trigger DOM events and changes based on the scopes data
   //digest = "eat all properties, and update your state accordingly"
 
-  set(options) {
+  digest() {
     var self = this;
-    Object.keys(options).forEach(function (key) {
+    var computed = this.context.definition.computedValues;
+
+    if (computed) {
+      Object.keys(computed).forEach(function (key) {
+        var prop = {};
+        var value = computed[key](self) || '';
+
+        prop[key] = value;
+        self.set(prop);
+      });
+    }
+  }
+
+  set(data) {
+    if (!data) {
+      return;
+    }
+
+    var self = this;
+
+    Object.keys(data).forEach(function (key) {
       //Don't allow overwriting interface methods and private variables (set, remove, ...)
       //TODO: Only set actual properties
-      self[key] = options[key];
+      self[key] = data[key];
     });
   }
 }
