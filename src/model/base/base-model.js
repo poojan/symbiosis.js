@@ -8,8 +8,7 @@ export class BaseModel {
   }
 
   create(data) {
-    var properties = [];
-    return new ModelInstance(properties, data, this);
+    return new ModelInstance(data, this);
   }
 
   //TODO: Person.get(ID);
@@ -23,9 +22,13 @@ export class BaseModel {
 
 class ModelInstance {
 
-  constructor(properties, data, context) {
+  constructor(data, context) {
     this.context = context;
-    this.properties = properties;
+
+    this.fields = context.definition.fields;
+    this.computedValues = context.definition.computedValues;
+    this.serializationHandlers = context.definition.serializationHandlers;
+
     this.set(data);
   }
 
@@ -53,6 +56,27 @@ class ModelInstance {
   //}
 
   //TODO: person.serialize(); //returns a serialized model (using the serialization handlers)
+  serialize() {
+    var self = this;
+
+    var fields = this.fields;
+    var serializationHandlers = this.serializationHandlers || {};
+
+    var identity = function (value) {
+      return value;
+    };
+
+    var serialized = {};
+
+    Object.keys(fields).forEach(function (key) {
+      if (self[key]) {
+        var hander = serializationHandlers[key] || identity;
+        serialized[key] = hander(self[key]);
+      }
+    });
+
+    return serialized;
+  }
 
   //TODO: person.digest() //Triggers all digest listeners (computed values etc.)
   //the digest is supposed to make the model kick of an array of listeners.
@@ -64,7 +88,7 @@ class ModelInstance {
 
   digest() {
     var self = this;
-    var computed = this.context.definition.computedValues;
+    var computed = this.computedValues;
 
     if (computed) {
       Object.keys(computed).forEach(function (key) {

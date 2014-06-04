@@ -12,10 +12,10 @@ describe('Symbiosis', function () {
     });
 
     describe('when model defined', function () {
-      var model;
+      var definition;
 
       beforeEach(function () {
-        model = Symbiosis.Model.define('User', {
+        definition = Symbiosis.Model.define('User', {
           fields: {
             id: 'String',
             firstname: 'String',
@@ -45,34 +45,34 @@ describe('Symbiosis', function () {
       });
 
       it('should return model constructor', function () {
-        expect(model).toBeDefined();
+        expect(definition).toBeDefined();
       });
 
       describe('and model constructor requested', function () {
         beforeEach(function () {
-          model = Symbiosis.Model.get('User');
+          definition = Symbiosis.Model.get('User');
         });
 
         it('should return model constructor', function () {
-          expect(model).toBeDefined();
+          expect(definition).toBeDefined();
         });
       });
 
       describe('models behaviour', function () {
-        describe('when instance created', function () {
-          var instance;
+        describe('when model created', function () {
+          var model;
 
           beforeEach(function () {
-            instance = model.create();
+            model = definition.create();
           });
 
           it('should be created', function () {
-            expect(instance).toBeDefined();
+            expect(model).toBeDefined();
           });
 
           describe('when removed', function () {
             beforeEach(function () {
-              instance.remove();
+              model.remove();
             });
 
             it('should be removed', function () {
@@ -82,11 +82,11 @@ describe('Symbiosis', function () {
 
           describe('when set property', function () {
             beforeEach(function () {
-              instance.set({firstname: 'John'});
+              model.set({firstname: 'John'});
             });
 
             it('should set property', function () {
-              expect(instance.firstname).toEqual('John');
+              expect(model.firstname).toEqual('John');
             });
           });
 
@@ -99,7 +99,49 @@ describe('Symbiosis', function () {
           });
 
           describe('when serialized', function () {
+            var serialized;
 
+            describe('without serialization handlers', function () {
+              beforeEach(function () {
+                model = definition.create({firstname: 'John', surname: 'Snow'});
+              });
+
+              beforeEach(function () {
+                serialized = model.serialize();
+              });
+
+              it('should serialize to object', function () {
+                expect(serialized).toEqual({firstname: 'John', surname: 'Snow'});
+              });
+            });
+
+            describe('with serialization handlers', function () {
+              beforeEach(function () {
+                definition = Symbiosis.Model.define('User', {
+                  fields: {
+                    id: 'String',
+                    firstname: 'String',
+                    surname: 'String'
+                  },
+
+                  serializationHandlers: {
+                    firstname: function (value) {
+                      return 'Mr. ' + value;
+                    }
+                  }
+                });
+
+                model = definition.create({firstname: 'John', surname: 'Snow'});
+              });
+
+              beforeEach(function () {
+                serialized = model.serialize();
+              });
+
+              it('should serialize to object', function () {
+                expect(serialized).toEqual({firstname: 'Mr. John', surname: 'Snow'});
+              });
+            });
           });
 
           describe('when commited', function () {
@@ -116,25 +158,25 @@ describe('Symbiosis', function () {
 
           describe('when digest', function () {
             beforeEach(function () {
-              instance.digest();
+              model.digest();
             });
 
             it('should set the computed values of the model', function () {
-              expect(instance.fullName).toBe('');
+              expect(model.fullName).toBe('');
             });
 
             xdescribe('and fields initalized', function () {
               beforeEach(function () {
-                instance.firstname = 'Kenneth';
-                instance.surname = 'Lynne';
+                model.firstname = 'Kenneth';
+                model.surname = 'Lynne';
               });
 
               beforeEach(function () {
-                instance.digest();
+                model.digest();
               });
 
               it('should be re-computed', function () {
-                expect(instance.fullName).toBe('Kenneth Lynne');
+                expect(model.fullName).toBe('Kenneth Lynne');
               });
 
             });
