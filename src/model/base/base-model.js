@@ -99,7 +99,7 @@ class ModelInstance {
     var self = this;
 
     Object.keys(data).forEach(function (key) {
-      if (self._allowedProperty(key)) {
+      if (self._definedProperty(key)) {
         self[key] = data[key];
       } else {
         throw new Error(key + ' is not defined');
@@ -107,7 +107,7 @@ class ModelInstance {
     });
   }
 
-  _allowedProperty(property) {
+  _definedProperty(property) {
     var ownField = this._fields.hasOwnProperty(property);
     var computedField = this._computedValues.hasOwnProperty(property);
 
