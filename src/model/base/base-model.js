@@ -25,11 +25,13 @@ class ModelInstance {
   constructor(data, context) {
     this.context = context;
 
-    this.fields = context.definition.fields;
-    this.computedValues = context.definition.computedValues;
-    this.serializationHandlers = context.definition.serializationHandlers;
+    this._fields = context.definition.fields;
+    this._computedValues = context.definition.computedValues;
+    this._serializationHandlers = context.definition.serializationHandlers;
 
-    this.set(data);
+    if (data) {
+      this.set(data);
+    }
   }
 
   remove() {
@@ -59,8 +61,8 @@ class ModelInstance {
   serialize() {
     var self = this;
 
-    var fields = this.fields;
-    var serializationHandlers = this.serializationHandlers || {};
+    var fields = this._fields;
+    var serializationHandlers = this._serializationHandlers || {};
 
     var identity = function (value) {
       return value;
@@ -70,8 +72,8 @@ class ModelInstance {
 
     Object.keys(fields).forEach(function (key) {
       if (self[key]) {
-        var hander = serializationHandlers[key] || identity;
-        serialized[key] = hander(self[key]);
+        var handler = serializationHandlers[key] || identity;
+        serialized[key] = handler(self[key]);
       }
     });
 
@@ -88,7 +90,8 @@ class ModelInstance {
 
   digest() {
     var self = this;
-    var computed = this.computedValues;
+
+    var computed = this._computedValues;
 
     if (computed) {
       Object.keys(computed).forEach(function (key) {
@@ -102,10 +105,6 @@ class ModelInstance {
   }
 
   set(data) {
-    if (!data) {
-      return;
-    }
-
     var self = this;
 
     Object.keys(data).forEach(function (key) {
