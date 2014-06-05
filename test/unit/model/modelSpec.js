@@ -88,6 +88,27 @@ describe('Symbiosis', function () {
             it('should set property', function () {
               expect(model.firstname).toEqual('John');
             });
+
+            describe('and set few properties', function () {
+              beforeEach(function () {
+                model.set({firstname: 'John', surname: 'Snow'});
+              });
+
+              it('should set properties', function () {
+                expect(model.firstname).toEqual('John');
+                expect(model.surname).toEqual('Snow');
+              });
+            });
+
+            describe('and set non-defined property', function () {
+              it('should thrown exception', function () {
+                var create = function () {
+                  model.set({firstname: 'John', lastname: 'Snow'});
+                };
+
+                expect(create).toThrow(new Error('lastname is not defined'));
+              });
+            })
           });
 
           describe('when get identifier', function () {

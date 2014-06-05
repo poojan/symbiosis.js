@@ -26,8 +26,8 @@ class ModelInstance {
     this.context = context;
 
     this._fields = context.definition.fields;
-    this._computedValues = context.definition.computedValues;
-    this._serializationHandlers = context.definition.serializationHandlers;
+    this._computedValues = context.definition.computedValues || {};
+    this._serializationHandlers = context.definition.serializationHandlers || {};
 
     if (data) {
       this.set(data);
@@ -57,12 +57,11 @@ class ModelInstance {
   //	errors: ['Field is required']
   //}
 
-  //TODO: person.serialize(); //returns a serialized model (using the serialization handlers)
   serialize() {
     var self = this;
 
     var fields = this._fields;
-    var serializationHandlers = this._serializationHandlers || {};
+    var serializationHandlers = this._serializationHandlers;
 
     var identity = function (value) {
       return value;
@@ -79,14 +78,6 @@ class ModelInstance {
 
     return serialized;
   }
-
-  //TODO: person.digest() //Triggers all digest listeners (computed values etc.)
-  //the digest is supposed to make the model kick of an array of listeners.
-  //Listeners may be validators and computed values for instance.
-  //It is basically to be able to calculate different values at a given rate.
-  //For example you have a $digest() in angular also that calls all watchers
-  //to do different stuff on scope and trigger DOM events and changes based on the scopes data
-  //digest = "eat all properties, and update your state accordingly"
 
   digest() {
     var self = this;
@@ -108,9 +99,18 @@ class ModelInstance {
     var self = this;
 
     Object.keys(data).forEach(function (key) {
-      //Don't allow overwriting interface methods and private variables (set, remove, ...)
-      //TODO: Only set actual properties
-      self[key] = data[key];
+      if (self._allowedProperty(key)) {
+        self[key] = data[key];
+      } else {
+        throw new Error(key + ' is not defined');
+      }
     });
+  }
+
+  _allowedProperty(property) {
+    var ownField = this._fields.hasOwnProperty(property);
+    var computedField = this._computedValues.hasOwnProperty(property);
+
+    return ownField || computedField;
   }
 }
