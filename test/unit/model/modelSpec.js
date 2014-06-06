@@ -28,7 +28,7 @@ describe('Symbiosis', function () {
               hasMany: 'User'
             }
           },
-          computedValues: {
+          computedFields: {
             fullName: function (model) {
               if (model.firstname && model.surname) {
                 return model.firstname + ' ' + model.surname;

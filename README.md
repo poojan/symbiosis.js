@@ -32,7 +32,7 @@ Written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 * [Properties](src/property/README.md) - serialization logic
 * [Associations](src/property/README.md#associations) - special properties to handle associations
 * [Validation](src/validation/README.md) - validation of properties
-* [Adapter](src/validation/README.md) - (VERY unstable) business logic and driver interaction, 
+* [Adapter](src/validation/README.md) - (VERY unstable) business logic and driver interaction,
 * [Driver](src/driver/README.md) - (VERY unstable) resource wrapper
 * [CacheProvider](src/cacheprovider/README.md) - (VERY unstable) cache handling
 
@@ -162,8 +162,8 @@ var person = Person.create({
 //person.firstname: Kenneth
 //person.friends[0] is whatever PersonModel.getById('5') returns (a person instance)
 
-person.save(); //will do a post to the back-end, 
-//and whatever the back-end returns (a person with and id and createdDate etc) will set this instances 
+person.save(); //will do a post to the back-end,
+//and whatever the back-end returns (a person with and id and createdDate etc) will set this instances
 //fields to the updatet values.
 //save() returns a promise, but we do not need it in this example.
 ```
@@ -201,7 +201,7 @@ var Person = Symbiosis.Model.define('Person', {
 			return adapter.resetPassword(model);
 		}
 	},
-	computedValues: {
+	computedFields: {
 		//Computed values are updated on every digest (person.digest())
 		//By default the property $validation will be populated with the results from the different validators
 		fullName: function(model) {
@@ -253,12 +253,12 @@ var Person = Symbiosis.Model.define('Person', {
 		//onDigest: function() {},
 		onInitializing: function (model) {
 			model.__isReady = false;
-		
+
 			//Example of how to bind up the digest of angular to kick of the models digest cycle
 			var unbinder = $rootScope.$watch(function() {
 				model.digest();
 			}, angular.noop);
-		
+
 			return unbinder; //Should return a function that unbinds and unregisters all eventlisteners
 		},
 		onInitialized: function (model) {
@@ -279,7 +279,7 @@ var Person = Symbiosis.Model.define('Person', {
 		//Calls the function that was returned from onInitialize
 		deregister();
 	},
-	
+
 	//Static methods available on the model
 	//Default methods are create, remove, get, findOrCreate, where
 	//The Symbiosis will keep track of models based on ID, and should return the exact
