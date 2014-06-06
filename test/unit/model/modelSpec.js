@@ -115,7 +115,38 @@ describe('Symbiosis', function () {
           });
 
           describe('when validated', function () {
+            var validated;
 
+            describe('and model is valid', function () {
+              beforeEach(function () {
+                model = definition.create({firstname: 'John', surname: 'Snow'});
+              });
+
+              beforeEach(function () {
+                validated = model.validate();
+              });
+
+              it('should return undefined', function () {
+                expect(validated).not.toBeDefined();
+              });
+            });
+
+            describe('and model is invalid', function () {
+              beforeEach(function () {
+                model = definition.create({firstname: 'John', surname: 123});
+              });
+
+              beforeEach(function () {
+                validated = model.validate();
+              });
+
+              it('should return error object', function () {
+                expect(validated).toBeDefined();
+              });
+
+              // TODO: check error object properties
+
+            });
           });
 
           describe('when serialized', function () {

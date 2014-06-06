@@ -57,10 +57,10 @@ class Instance {
     // this.__isRemoving = false
   }
 
-  //TODO: validate() {
-  //returns an array of all fields, their isValid, and an optional message
-  //Iterate over all properties
-  //}
+
+  validate() {
+
+  }
 
   //TODO: A computed value over validations state
   //person.validation.fields['age']
