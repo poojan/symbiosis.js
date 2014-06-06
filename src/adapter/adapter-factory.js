@@ -1,4 +1,4 @@
-import {BaseAdapter} from './base/base-adapter.js';
+import {Adapter} from './base/adapter.js';
 
 /**
  * Define an adapter
