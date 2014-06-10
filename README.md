@@ -36,7 +36,7 @@ Written in ES6 (also transpiled into ES5 Common JS and AMD modules).
 * [Driver](src/driver/README.md) - (VERY unstable) resource wrapper
 * [CacheProvider](src/cacheprovider/README.md) - (VERY unstable) cache handling
 
-For adapters and down to drivers and cacheproviders it is worth considering [https://github.com/orbitjs/orbit.js](Orbit.js) before implementing.
+For adapters and down to drivers and cacheproviders it is worth considering [Orbit.js](https://github.com/orbitjs/orbit.js) before implementing.
 
 ## Features
 * Models
